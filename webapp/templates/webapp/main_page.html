@@ -1,0 +1,170 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+    <title>PRD Input</title>
+
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css" integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4" crossorigin="anonymous">
+    <link rel="stylesheet" href='{% static "webapp/main_page.css" %}'>
+    <link rel="stylesheet" href={% static "webapp/base.css" %} >
+
+    <script src='{% static "webapp/jquery-3.5.1.js" %}'></script>
+    <script defer src="https://use.fontawesome.com/releases/v5.0.13/js/solid.js" integrity="sha384-tzzSw1/Vo+0N5UhStP3bvwWPq+uvzCMfrN1fEFe+xBmv1C/AtVX5K0uZtmcHitFZ" crossorigin="anonymous"></script>
+    <script defer src="https://use.fontawesome.com/releases/v5.0.13/js/fontawesome.js" integrity="sha384-6OIrr52G08NpOFSZdxxz1xdNSndlD4vdcf/q2myIUVO0VsqaGHJsB0RaBE01VTOY" crossorigin="anonymous"></script>
+</head>
+<body>
+
+    <div class="main-container">
+        <div class="col-left">
+            <div id="mySidenav" class="sidenav">
+                <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+                <a href='{% url "webapp:main_page" %}'>PRD Dashboard</a>
+                <a href='{% url "webapp:create_prd" %}'>Projects</a>
+                <a href='{% url "webapp:risk_assessment" %}'>PRD</a>
+                <a href='{% url "webapp:logout" %}'>Logout</a>
+            </div>
+
+            <div class="dropdown">
+                <span class="showOptions" onclick="openNav()">&#9776; PRD</span>
+            </div>
+        </div>
+
+
+        <div class="col-right">
+            <div class="main-content">
+                {% for message in messages %}
+                    <p class="login-success"
+                       style="margin: auto;
+                              width: 35%;
+                              border-radius: 4px;
+                              margin-top:  8px;
+                              padding: 6px 8px;
+                              margin-bottom: 10px;
+                              text-align: center;
+                              font-size: 18px;
+                              background: #c5e2e3;"
+                    >
+                        {{ message }}
+                    </p>
+                {% endfor %}
+
+                {% block create_prd %}
+                {% endblock %}
+
+                {% block input_data %}
+                {% endblock %}
+
+                {% block content %}
+                {% endblock %}
+            </div>
+        </div>
+
+
+    <script>
+
+        let submission = document.querySelector("#submission");
+        // submission.addEventListener('click', e => {
+        //     e.preventDefault();
+        // })
+
+        let input_form = document.querySelector(".input-form");
+        let fixed_Equipment_Protected_by_PRD = document.querySelector("#id_Fixed_Equipment_Protected_by_PRD");
+        fixed_Equipment_Protected_by_PRD.addEventListener("change", e => {
+            if (e.target.value === 'no') {
+                $('#id_Protected_Equipment_Demage_Status').attr('disabled', true);
+                $('#id_PRD_COF_to_open_associated_with_jth_overpressure').attr('disabled', true);
+            } else {
+                $('#id_Protected_Equipment_Demage_Status').attr('disabled', false);
+                $('#id_PRD_COF_to_open_associated_with_jth_overpressure').attr('disabled', false);
+            }
+        });
+
+        let multiple_PRDs_protecting_fixed_equipment = document.querySelector("#id_Multiple_PRDs_protecting_fixed_equipment");
+        multiple_PRDs_protecting_fixed_equipment.addEventListener("change", e => {
+            console.log(e.target.value);
+            if (e.target.value === 'no') {
+                $("#id_Orifice_area_of_the_PRD").attr('disabled', true);
+                $("#id_Total_installed_orifice_area_of_a_multiple_PDRs_installation").attr('disabled', true);
+            } else {
+                $("#id_Orifice_area_of_the_PRD").attr('disabled', false);
+                $("#id_Total_installed_orifice_area_of_a_multiple_PDRs_installation").attr('disabled', false);
+            }
+        });
+
+
+        function openNav() {
+            document.querySelector(".showOptions").style.display = "none";
+            document.getElementById("mySidenav").style.width = "250px";
+        }
+
+        function closeNav() {
+            document.querySelector(".showOptions").style.display = "block";
+            document.getElementById("mySidenav").style.width = "0";
+            document.getElementById("main").style.marginLeft = "0";
+        }
+        function documentReady() {
+
+            // $(".general-info-tr").toggle();
+            // $(".protected-fixed-th").hide();
+            // $(".failure-input-data-th").hide();
+            // $(".failure-of-leakage-th").hide();
+            // $(".inspection-history-th").hide();
+            // $(".applicable_overpressure-th").hide();
+
+
+
+            function toggleHeader(class1, class2) {
+                $(class1).click(function() {
+                    $(class2).toggle(300);
+                });
+            }
+
+            function toggleHeaders(class1) {
+                $(class1).slideToggle();
+            }
+
+            function toggleInputOption(toggler, theader, t_row) {
+                toggler.click(function() {
+                    t_row.hide();
+                    theader.slideToggle();
+                });
+            }
+
+            let general_info = $(".general-info");
+            let prected_equip = $(".protected-equip");
+            let conseq_input = $(".conseq-input");
+            let conseq_leakage = $(".conseq-leakage");
+            let inspect_history = $(".inspect-history");
+            let applicable_overpressure = $(".applicable_overpressure");
+
+
+            toggleInputOption(general_info, $(".general-info-th"), $(".general-info-tr"));
+            toggleInputOption(prected_equip, $(".protected-fixed-th"), $(".protected-fixed-tr"));
+            toggleInputOption(conseq_input, $(".failure-input-data-th"), $(".failure-input-data-tr"));
+            toggleInputOption(conseq_leakage, $(".failure-of-leakage-th"), $(".failure-of-leakage-tr"));
+            toggleInputOption(inspect_history, $(".inspection-history-th"), $(".inspection-history-tr"));
+            toggleInputOption(applicable_overpressure, $(".applicable_overpressure-th"), $(".applicable_overpressure-tr"));
+
+
+            toggleHeaders(".general-info-tr");
+            toggleHeaders(".protected-fixed-tr");
+            toggleHeaders(".failure-input-data-tr");
+            toggleHeaders(".failure-of-leakage-tr");
+            toggleHeaders(".inspection-history-tr");
+            toggleHeaders(".applicable_overpressure-tr");
+
+            toggleHeader(".general-info-th", ".general-info-tr");
+            toggleHeader(".protected-fixed-th", ".protected-fixed-tr");
+            toggleHeader(".failure-input-data-th", ".failure-input-data-tr");
+            toggleHeader(".failure-of-leakage-th", ".failure-of-leakage-tr");
+            toggleHeader(".inspection-history-th", ".inspection-history-tr");
+            toggleHeader(".applicable_overpressure-th", ".applicable_overpressure-tr");
+        }
+        $(document).ready(documentReady);
+    </script>
+</body>
+</html>

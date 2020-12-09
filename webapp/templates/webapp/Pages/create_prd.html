@@ -1,0 +1,298 @@
+{% extends "webapp/main_page.html" %}
+
+{% block title %}Input Values{% endblock %}
+
+
+
+{% block content %}
+    <div class="container-table">
+        <form action="." method="post" class="input-form">
+            <table class="table-data">
+                <tr>
+                    <th colspan="3" class="general-info-th" title="Click here to expand/shrink list">General Information <i class="fas fa-angle-down"></i></th>
+                </tr>
+                <tr class="general-info-tr">
+                    <td>PRD Identification Number</td>
+                    <td>{{ form_general.PRD_identification_number }}</td>
+                    <td></td>
+                </tr>
+                <tr class="general-info-tr">
+                    <td>PRD Function</td>
+                    <td>{{ form_general.PRD_function }}</td>
+                    <td></td>
+                </tr>
+               <tr class="general-info-tr">
+                    <td>Installation of PRD</td>
+                    <td>{{ form_general.Installation_of_PRD }}</td>
+                    <td>(mm/dd/yyyy)</td>
+                </tr>
+                <tr class="general-info-tr">
+                    <td>RBI assessment date </td>
+                    <td>{{ form_general.RBI_assessment_date }}</td>
+                    <td>(mm/dd/yyyy)</td>
+                </tr>
+                <tr class="general-info-tr">
+                    <td>Type of PRD</td>
+                    <td class="custom-select">{{ form_general.Type_of_PRD }}</td>
+                    <td></td>
+                </tr>
+                <tr class="general-info-tr">
+                    <td>PRD Containing Soft Seats?</td>
+                    <td class="custom-select">{{ form_general.PRD_Containing_Soft_Seats }}</td>
+                </tr>
+                <tr class="general-info-tr">
+                    <td>PRD Set Pressure</td>
+                    <td class="custom-select">{{ form_general.PRD_set }}</td>
+                    <td>MPa</td>
+                </tr>
+                <tr class="general-info-tr">
+                    <td>Service severity</td>
+                    <td class="custom-select">{{ form_general.Service_severity }}</td>
+                    <td></td>
+                </tr>
+                <tr class="general-info-tr">
+                    <td>PRD Discharge Location</td>
+                    <td class="custom-select">{{ form_general.PRD_Discharge_Location }}</td>
+                    <td></td>
+                </tr>
+                <tr class="general-info-tr">
+                    <td>Environment Factor Modifier</td>
+                    <td class="custom-select">{{ form_general.Environment_Factor_Modifier }}</td>
+                    <td></td>
+                </tr>
+                <tr class="general-info-tr">
+                    <td>Rupture disk is installed upstream of PRD?</td>
+                    <td class="custom-select">{{ form_general.Rupture_disk_is_installed_upstream_of_PRD }}</td>
+                    <td></td>
+                </tr>
+
+
+
+
+                <tr>
+                    <th colspan="3" class="protected-fixed-th" title="Click here to expand/shrink list">Protected Fixed Equipment/Piping Data <i class="fas fa-angle-down"></i></th>
+                </tr>
+                <tr class="protected-fixed-tr">
+                    <td>Fixed Equipment Protected by PRD</td>
+                    <td id="iprd-18" class="custom-select">{{ form_inspection.Fixed_Equipment_Protected_by_PRD }}</td>
+                    <td>Field of linking protected equipment</td>
+                </tr>
+                <tr class="protected-fixed-tr">
+                    <td>Protected Equipment Demage Status</td>
+                    <td id="iprd-19" class="custom-select">{{ form_inspection.Protected_Equipment_Demage_Status }}</td>
+                    <td></td>
+                </tr>
+                <tr class="protected-fixed-tr">
+                    <td>Maximum Allowable Working Pressure of <br>Protected Equipment</td>
+                    <td class="custom-integer-field">{{ form_inspection.Maximum_Allow_able_Working_Pressure_of_Protected_Equipment }}</td>
+                    <td>MPa</td>
+                </tr>
+                <tr class="protected-fixed-tr">
+                    <td>Operating Pressure of the Protected Equipment</td>
+                    <td class="custom-integer-field">{{ form_inspection.Operating_Pressure_of_the_Protected_Equipment }}</td>
+                    <td>MPa</td>
+                </tr>
+                <tr class="protected-fixed-tr">
+                    <td>Management System Factor</td>
+                    <td class="custom-integer-field">{{ form_inspection.management_system_factor }}</td>
+                    <td></td>
+                </tr>
+
+
+
+
+
+                <tr>
+                    <th colspan="3" class="failure-input-data-th" title="Click here to expand/shrink list">Consequences of Failure Input Data <i class="fas fa-angle-down"></i></th>
+                </tr>
+                <tr class="failure-input-data-tr">
+                    <td>Multiple PRDs protecting fixed equipment</td>
+                    <td class="custom-select">{{ failure_to_open_form.Multiple_PRDs_protecting_fixed_equipment }}</td>
+                    <td></td>
+                </tr>
+                <tr class="failure-input-data-tr">
+                    <td>Orifice area of the PRD</td>
+                    <td class="custom-integer-field">{{ failure_to_open_form.Orifice_area_of_the_PRD }}</td>
+                    <td>mm&#178;</td>
+                </tr>
+                <tr class="failure-input-data-tr">
+                    <td>Total installed orifice area of a multiple PDRs <br>installation</td>
+                    <td class="custom-integer-field">{{ failure_to_open_form.Total_installed_orifice_area_of_a_multiple_PDRs_installation }}</td>
+                    <td>mm&#178;</td>
+                </tr>
+
+
+
+
+
+
+                <tr>
+                    <th colspan="3" class="failure-of-leakage-th" title="Click here to expand/shrink list">Consequences of Failure of Leakage <i class="fas fa-angle-down"></i></th>
+                </tr>
+                <tr class="failure-of-leakage-tr">
+                    <td>Rated Capacity of PRD</td>
+                    <td class="custom-integer-field">{{ failure_of_leakage_form.Rated_Capacity_of_PRD }}</td>
+                    <td>kg/hr</td>
+                </tr>
+                <tr class="failure-of-leakage-tr">
+                    <td>PRD Inlet Size</td>
+                    <td class="custom-integer-field">{{ failure_of_leakage_form.PRD_Inlet_Size }}</td>
+                    <td>inch</td>
+                </tr>
+                <tr class="failure-of-leakage-tr">
+                    <td>Cost of the fluid</td>
+                    <td class="custom-integer-field">{{ failure_of_leakage_form.Cost_of_the_fluid }}</td>
+                    <td>&#36;/kg</td>
+                </tr>
+                <tr class="failure-of-leakage-tr">
+                    <td>Environmental clean-up costs due to a PRD <br>leakage</td>
+                    <td class="custom-integer-field">{{ failure_of_leakage_form.Environmental_clean_up_costs_due_to_a_PRD_leakage }}</td>
+                    <td>&#36;</td>
+                </tr>
+                <tr class="failure-of-leakage-tr">
+                    <td>PRD leakage can be tolerated?</td>
+                    <td class="custom-select">{{ failure_of_leakage_form.PRD_leakage_can_be_tolered }}</td>
+                    <td></td>
+                </tr>
+                <tr class="failure-of-leakage-tr">
+                    <td>Cost of shutdown to repair PRD</td>
+                    <td class="custom-integer-field">{{ failure_of_leakage_form.Cost_of_shutdown_to_repair_PRD }}</td>
+                    <td>&#36;</td>
+                </tr>
+                <tr class="failure-of-leakage-tr">
+                    <td>Daily production margin on the unit</td>
+                    <td class="custom-integer-field">{{ failure_of_leakage_form.Daily_production_margin_on_the_unit }}</td>
+                    <td>&#36;/day</td>
+                </tr>
+                <tr class="failure-of-leakage-tr">
+                    <td>Number of days required to shut a unit down <br>to repair a leaking or stuck open PRD</td>
+                    <td class="custom-integer-field">{{ failure_of_leakage_form.Days_required_to_shutdown_a_unit_to_repair_a_leakage }}</td>
+                    <td>&#36;</td>
+                </tr>
+
+
+
+
+
+                <tr>
+                    <th colspan="3" class="inspection-history-th" title="Click here to expand/shrink list">PRD Inspection History <i class="fas fa-angle-down"></i></th>
+                </tr>
+                <tr class="inspection-history-tr">
+                    <td>PRD Inspection/Test Date</td>
+                    <td class="custom-select">{{ inspection_history.RBI_inspection_test_date }}</td>
+                    <td></td>
+                </tr>
+                <tr class="inspection-history-tr">
+                    <td>PRD Pop-Test Results</td>
+                    <td class="custom-select">{{ inspection_history.PRD_pop_test_results }}</td>
+                    <td></td>
+                </tr>
+                <tr class="inspection-history-tr">
+                    <td>PRD Leakage Results</td>
+                    <td class="custom-select">{{ inspection_history.PRD_Leakage_results }}</td>
+                    <td></td>
+                </tr>
+               <tr class="inspection-history-tr">
+                    <td>PRD Inpection Effectiveness</td>
+                    <td class="custom-select">{{ inspection_history.PRD_Inspection_Effectiveness }}</td>
+                    <td></td>
+                </tr>
+                <tr class="inspection-history-tr">
+                    <td>PRD Overhauuled during the Inspection</td>
+                    <td class="custom-select">{{ inspection_history.PRD_Overhauled_during_the_inspection }}</td>
+                    <td></td>
+                </tr>
+                <tr class="inspection-history-tr">
+                    <td>PRD replaced with new PRD in lieu of overhaul</td>
+                    <td class="custom-select">{{ inspection_history.PRD_replace_with_new_PRD_in_lieu_of_overhaul }}</td>
+                    <td></td>
+                </tr>
+
+
+                <tr class="inspection-history-tr">
+                    <td colspan="3">
+                        <table class="table-data history">
+                            <tr>
+                                <th>Inspection No.</th>
+                                <th>Inspection test date</th>
+                                <th>pop test results</th>
+                                <th>leakage results</th>
+                                <th>Inspection Effectiveness</th>
+                                <th>PRD Overhauled</th>
+                                <th>PRD replace with new PRD</th>
+                                <th>Remove</th>
+                            </tr>
+                            {% for obj in objects_history_data %}
+                                <tr>
+                                    {% with obj|last as object_id %}
+                                        {% for val in obj|slice:"0:7"  %}
+                                            <td>{{val}}</td>
+                                        {% endfor %}
+                                        <td><a href='{% url "webapp:delete_inspe_history_obj" object_id %}'>Delete</a></td>
+                                    {% endwith %}
+                                </tr>
+                            {% endfor %}
+                        </table>
+                    </td>
+                </tr>
+
+
+
+
+
+                <tr>
+                    <th colspan="3" class="applicable_overpressure-th" title="Click here to expand/shrink list">Applicable Overpressure Demand Case <i class="fas fa-angle-down"></i></th>
+                </tr>
+                <tr class="applicable_overpressure-tr">
+                    <td>Overpressure demand case</td>
+                    <td class="custom-select">{{ applicable_overpressure.Over_pressure_demand_case }}</td>
+                    <td></td>
+                </tr>
+                <tr class="applicable_overpressure-tr">
+                    <td>Overpressure like to occur (in MPa)</td>
+                    <td>{{ applicable_overpressure.Overpressure_associated_with_the_overpressure }}</td>
+                    <td></td>
+                </tr>
+               <tr class="applicable_overpressure-tr">
+                    <td>PRD COF to open associated with the jth overpressure demand</td>
+                    <td>{{ applicable_overpressure.PRD_COF_to_open_associated_with_jth_overpressure }}</td>
+                    <td></td>
+                </tr>
+
+
+                <tr class="applicable_overpressure-tr">
+                    <td colspan="3">
+                        <table class="table-data history">
+                            <tr>
+                                <th>Sr. No.</th>
+                                <th>Overpressuer demand case</th>
+                                <th>Overpressure like to occur</th>
+                                <th>PRD COF to open associated with jth overpressure demand case</th>
+                                <th>Remove</th>
+                            </tr>
+                            {% for obj in applicable_overpress_data %}
+                                <tr>
+                                    {% with obj|last as first_val %}
+                                        {% for val in obj|slice:"0:4"  %}
+                                            <td>{{val}}</td>
+                                        {% endfor %}
+                                        <td><a href='{% url "webapp:delete_applic_overpr_obj" first_val %}'>Delete</a></td>
+                                    {% endwith %}
+                                </tr>
+                            {% endfor %}
+                        </table>
+                    </td>
+                </tr>
+
+                <tr>
+                    <th colspan="3" class="submission-th">
+                        {% csrf_token %}
+                        <input type="submit" id="submission" /> <!--Add</button> -->
+                    </th>
+                </tr>
+            </table>
+        </form>
+    </div>
+{% endblock %}
+
+

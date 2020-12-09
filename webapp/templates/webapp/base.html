@@ -1,0 +1,91 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<!--    <meta http-equiv="refresh" content="10"> -->
+
+    <title>{% block title %}PRD{% endblock %}</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script src='{% static "webapp/jquery-3.5.1.js" %}'></script>
+
+    <link rel="shortcut icon" href='{% static "webapp/favicon.ico" %}'>
+    <link rel="stylesheet" href='{% static "webapp/base.css" %}'>
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
+</head>
+<body>
+
+    <div class="contanier-div">
+        <ul class="header">
+            <li><a class="dropdown-btn">
+                <i class="fas fa-bars"></i>
+            </a></li>
+            <li><a class="prd-input data" href={% url "webapp:homepage" %}>Dashboard</a></li>
+            <li><a class="prd-input data" href='{% url "webapp:input_data" %}'>PRD Input Data</a></li>
+            <li><a class="prd-inspection-planing" href='{% url "webapp:risk_assessment" %}'>Risk Assessment Results</a></li>
+            <li><a class="prd-results" href='{% url "webapp:inspection_planning" %}'>Inspection Planing</a></li>
+        </ul>
+
+        <div class="main">
+            {% for message in messages  %}
+                <p class="login-sucess">{{ message }}</p>
+            {% endfor %}
+
+            {% block content %}
+            {% endblock %}
+        </div>
+
+        <ul class="footer">
+            <li><a class="prd-input data" href='{% url "webapp:input_data" %}'>About us</a></li>
+            <li><a class="prd-inspection-planing" href='{% url "webapp:risk_assessment" %}'>Contact us</a></li>
+            <li><a class="prd-results" href='{% url "webapp:inspection_planning" %}'>Our location</a></li>
+        </ul>
+    </div>
+
+    <script>
+
+        function documentReady() {
+
+            // function showHideArrow(class_) {
+            //     if ($(class_).is(":visible")) {
+            //         // $("i").removeClass("far fa-angle-down");
+            //         console.log($(`${class_} i`).attr("class", "fas fa-angle-up"));
+            //         console.log(`Arrow up in ${class_}`);
+            //     } else {
+            //         // $("i").removeClass("fas fa-angle-up");
+            //         console.log($(`${class_} i`).attr("class", "far fa-angle-down"));
+            //         console.log(`Arrow down in ${class_}`);
+            //     }
+            // }
+
+            function toggleHeader(class1, class2) {
+                $(class1).click(function() {
+                    console.log('Yes');
+                    $(class2).toggle();
+                    // showHideArrow(".general-info-tr");
+                });
+            }
+
+            function toggleHeaders(class1) {
+                $(class1).toggle();
+            }
+
+            toggleHeaders(".general-info-tr");
+            toggleHeaders(".protected-fixed-tr");
+            toggleHeaders(".failure-input-data-tr");
+            toggleHeaders(".failure-of-leakage-tr");
+            // toggleHeaders(".application-overpressure-tr");
+
+            toggleHeader(".general-info-th", ".general-info-tr");
+            toggleHeader(".protected-fixed-th", ".protected-fixed-tr");
+            toggleHeader(".failure-input-data-th", ".failure-input-data-tr");
+            toggleHeader(".failure-of-leakage-th", ".failure-of-leakage-tr");
+            toggleHeader(".application-overpressure-th", ".application-overpressure-tr");
+            toggleHeader(".inspection-history-th", ".inspection-history-tr");
+        }
+        $(document).ready(documentReady);
+    </script>
+</body>
+</html>

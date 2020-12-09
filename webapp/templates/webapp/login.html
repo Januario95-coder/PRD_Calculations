@@ -1,0 +1,157 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+    <script src='{% static "webapp/jquery-3.5.1.js" %}'></script>
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        html {
+            height: 100%;
+        }
+        body {
+            background-image: url('{% static "webapp/Gas.jpg" %}');
+            background-position: center;
+            background-repeat: no-repeat;
+            background-size: cover;
+        }
+
+        .container-login {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            /* margin-top: -250px; */
+        }
+
+        .row-login {
+            margin-top: 130px;
+            background: #e6f2ff; /* #e6f9ff; */
+            border: 1px solid white;
+            padding: 12px 30px;
+            border-radius: 4px;
+        }
+
+        .row-login h4, .row-login label {
+            font-size: 1.09em;
+        }
+
+        .login-inputs, .login-submit {
+            display: block;
+            height: 45px;
+            width: 350px;
+            border: none;
+            outline: none;
+            text-align: center;
+            border-radius: 4px;
+            margin-bottom: 15px;
+            font-size: 0.99em;
+        }
+
+        .login-inputs {
+            /* background: #f2f2f2; */
+        }
+
+        .login-inputs:focus {
+            border: 1px solid black;
+        }
+
+        .login-submit {
+            background: #0066ff;
+            font-weight: bold;
+        }
+
+        .login-submit:hover {
+            background-color: #4d94ff;
+            transition-property: background-color;
+            transition-duration: 0.15s;
+            transition-delay: 0.15s;
+            cursor: pointer;
+        }
+
+        .usernameLabel {
+            display: none;
+        }
+        ul .errorlist {
+            list-style: none;
+        }
+        .errorlist {
+            color: red;
+        }
+    </style>
+</head>
+<body>
+    <div class="container-login">
+        <div class="row-login">
+            <h4>Sign in to the portal</h4>
+            <form action="." method="post">
+                <label for="username" class="usernameLabel">Username</label>
+                {{ form.username }}
+
+                <label for="user-password" class="user-password">Password</label>
+                {{ form.password }}
+
+                {% if form.errors %}
+                    <ul>
+                        {% for error in form.errors %}
+                            <li class="errorlist"><strong>Wrong {{ error|escape }}</strong></li>
+                        {% endfor %}
+                    </ul>
+                {% endif %}
+                {% csrf_token %}
+
+                <input type="submit" value="Sign In" class="login-submit">
+            </form>
+        </div>
+    </div>
+
+
+    <script>
+        "use strict";
+        function loadForm() {
+            let container = document.querySelector(".container-login");
+            let row_login = $(".container-login");
+            row_login.fadeIn(function() {
+                container.style.display = "flex";
+                container.style.marginTop = "180px";
+            });
+        }
+        function documentReady() {
+            console.log('The document is ready!');
+
+            let usernameInput = document.querySelector("#username");
+            let usernameLabel = document.querySelector(".usernameLabel");
+            let userPasswordInput = document.querySelector("#user-password");
+            let userPassLabel = document.querySelector(".user-password");
+
+
+            function showHideLabel(input, label, type, showOrHide) {
+                input.addEventListener(type, e => {
+                    if (type == 'focus') {
+                        input.setAttribute('placeholder', '');
+                    } else {
+                        input.setAttribute('placeholder', label.textContent);
+                    }
+                    label.style.display = showOrHide;
+                });
+            }
+
+            showHideLabel(usernameInput, usernameLabel, 'focus', 'block');
+            showHideLabel(usernameInput, usernameLabel, 'blur', 'none');
+
+            showHideLabel(userPasswordInput, userPassLabel, 'focus', 'block');
+            showHideLabel(userPasswordInput, userPassLabel, 'blur', 'none');
+        }
+
+        $(document).ready(documentReady);
+    </script>
+</body>
+</html>
+
+
+
+

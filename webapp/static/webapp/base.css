@@ -1,0 +1,96 @@
+* {
+    box-sizing: border-box;
+    font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+}
+
+body {
+    background: #f7fafa;
+}
+
+.history td {
+    text-align: center;
+}
+
+.table-data td, .table-data th {
+    padding: 8px;
+}
+
+.table-data th {
+    padding-top: 12px;
+    padding-bottom: 12px;
+    text-align: center;
+    background-color: #4ddbb3;
+    color: black;
+    border-bottom: 1px solid white;
+}
+
+.history th {
+    background-color: #333 !important;
+    color: #dcdfe3;
+}
+
+.history tr:nth-child(even) {
+    background: #edeff2;
+}
+
+.history tr:nth-child(odd) {
+    background: #dce5f2;
+}
+
+.table-data th:hover {
+    color: white;
+}
+
+.general-info-th:hover,
+.protected-fixed-th:hover,
+.failure-input-data-th:hover,
+.failure-of-leakage-th:hover,
+.application-overpressure-th:hover,
+.inspection-history-th:hover,
+.applicable_overpressure-th:hover {
+    cursor: pointer;
+}
+
+.table-data input[type=text],
+.table-data input[type=number],
+.table-data input[type=date] {
+    width: 100%;
+    padding: 8px 10px;
+    border: none;
+    text-align: center;
+    background: #c5e2e3;
+    font-size: 15px;
+    border-bottom: 2px solid green;
+}
+
+.custom-select, .custom-integer-field {
+    position: relative;
+    font-family: Arial;
+    text-align: center;
+    padding: 30px;
+    height: 20px;
+}
+
+.custom-select select {
+    text-align: center;
+    width: 100%;
+    padding: 8px 10px;
+}
+
+button {
+    border: none;
+    padding: 5px 15px;
+    margin: auto;
+    margin-left: 45%;
+    margin-top: 15px;
+    margin-bottom: 15px;
+    cursor: pointer;
+    background: #4CAF50;
+    border-radius: 5px;
+}
+
+button:hover {
+    background: #39bf85;
+    color: white;
+}
+

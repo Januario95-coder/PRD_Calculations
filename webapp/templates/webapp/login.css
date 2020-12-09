@@ -1,0 +1,69 @@
+* {
+    box-sizing: border-box;
+}
+
+body, html {
+    background-image: url('Gas.jpg');
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    height: 100%;
+}
+
+.container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.row {
+    margin-top: 130px;
+    background: white;
+    background: white;
+    border: 1px solid white;
+    padding: 12px 30px;
+    border-radius: 4px;
+}
+
+h4, label {
+    font-size: 1.09em;
+}
+
+input {
+    display: block;
+    height: 45px;
+    width: 350px;
+    border: none;
+    outline: none;
+    text-align: center;
+    border-radius: 4px;
+    margin-bottom: 15px;
+    font-size: 0.99em;
+}
+
+input[type=text], input[type=password] {
+    background: #f2f2f2;
+}
+
+input[type=text]:focus, input[type=password]:focus {
+    border: 1px solid black;
+}
+
+input[type=submit] {
+    background: #0066ff;
+    font-weight: bold;
+}
+
+input[type=submit]:hover {
+    background-color: #4d94ff;
+    transition-property: background-color;
+    transition-duration: 0.15s;
+    transition-delay: 0.15s;
+    cursor: pointer;
+}
+
+label {
+    display: none;
+}
+
+
