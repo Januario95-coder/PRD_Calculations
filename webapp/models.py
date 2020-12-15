@@ -7,6 +7,62 @@ from .IPRD_INPUT_CHOICES import *
 
 degree_sign = u"\N{DEGREE SIGN}"
 
+
+class TypeOfPRD(models.Model):
+    Type_of_PRD = models.CharField(max_length=25,
+                                   choices=IPRD_3_CHOICES,
+                                   default='convention_spring_loaded')
+
+
+class ServiceSeverity(models.Model):
+    Service_severity = models.CharField(max_length=15,
+                       choices=IPRD_6_CHOICES,
+                       default='mild')
+
+
+class PRDDischargeLocation(models.Model):
+    PRD_Discharge_Location = models.CharField(max_length=25,
+                             choices=IPRD_7_CHOICES,
+                             default='atmosphere')
+
+
+class EnvironmentFactorModifier(models.Model):
+    Environment_Factor_Modifier = models.CharField(max_length=100,
+                            choices=IPRD_8_CHOICES,
+                            default=f'99.33 {degree_sign}C < T < 260 {degree_sign}C')
+
+
+
+class ProtectedEquipmentDemageStatus(models.Model):
+    Protected_Equipment_Demage_Status = models.CharField(max_length=15,
+                            choices=IPRD_19_CHOICES,
+                            default='none')
+
+
+class PRDInspectionEffectiveness(models.Model):
+    PRD_Inspection_Effectiveness = models.CharField(max_length=30,
+                            choices=IPRD_13_CHOICES,
+                            default='highly_effective')
+
+
+class OverPressureDemandCase(models.Model):
+    Over_pressure_demand_case = models.CharField(max_length=100,
+                            choices=IPRD_16_CHOICES,
+                            default='fire')
+
+
+class SelectField(models.Model):
+    Type_of_PRD = models.ForeignKey(TypeOfPRD,
+                            on_delete=models.CASCADE)
+    Service_severity = models.ForeignKey(ServiceSeverity,
+                            on_delete=models.CASCADE)
+    PRD_Discharge_Location = models.ForeignKey(PRDDischargeLocation,
+                            on_delete=models.CASCADE)
+    Environment_Factor_Modifier = models.ForeignKey(EnvironmentFactorModifier,
+                            on_delete=models.CASCADE)
+
+
+
 class GeneralInformation(models.Model):
     PRD_identification_number = models.CharField(max_length=10)
     PRD_function = models.CharField(max_length=150)

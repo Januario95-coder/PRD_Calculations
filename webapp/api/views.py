@@ -8,6 +8,14 @@ from django.shortcuts import get_object_or_404
 from rest_framework.authentication import SessionAuthentication
 
 from .serializers import (
+    TypeOfPRDSerializer,
+    PRDDischargeLocationSerializer,
+    ServiceSeveritySerializer,
+    EnvironmentFactorModifierSerializer,
+    ProtectedEquipmentDemageStatusSerializer,
+    PRDInspectionEffectivenessSerializer,
+    OverPressureDemandCaseSerializer,
+
     GeneralInformationSerializer,
     ProtectedFixedEquipmentSerializer,
     ConsequencesOfFailureInputDataSerializer,
@@ -16,6 +24,14 @@ from .serializers import (
     ApplicableOverpressureDemandCaseSerializer
 )
 from webapp.models import (
+    TypeOfPRD,
+    ServiceSeverity,
+    PRDDischargeLocation,
+    EnvironmentFactorModifier,
+    ProtectedEquipmentDemageStatus,
+    PRDInspectionEffectiveness,
+    OverPressureDemandCase,
+
     GeneralInformation,
     PrdInspection_TestHistory,
     ConsequencesOfFailureInputData,
@@ -25,6 +41,13 @@ from webapp.models import (
 )
 
 import json
+
+Type_of_PRD = {
+    'convention_spring_loaded': 'Convention Spring-Loaded',
+    'balanced_bellows': 'Balanced Bellows',
+    'pilot_operated': 'Pilot Operated',
+    'Rupture_disk_only': 'Rupture Disk Only'
+}
 
 
 
@@ -38,16 +61,46 @@ def is_json(json_data):
 
 
 
+class TypeOfPRDAPIView(generics.ListAPIView):
+    serializer_class = TypeOfPRDSerializer
+    queryset = TypeOfPRD.objects.all()
+
+
+class ServiceSeverityAPIView(generics.ListAPIView):
+    serializer_class = ServiceSeveritySerializer
+    queryset = ServiceSeverity.objects.all()
+
+
+class PRDDischargeLocationAPIView(generics.ListAPIView):
+    serializer_class = PRDDischargeLocationSerializer
+    queryset = PRDDischargeLocation.objects.all()
+
+
+class EnvironmentFactorModifierAPIView(generics.ListAPIView):
+    serializer_class = EnvironmentFactorModifierSerializer
+    queryset = EnvironmentFactorModifier.objects.all()
+
+
+class ProtectedEquipmentDemageStatusAPIView(generics.ListAPIView):
+    serializer_class = ProtectedEquipmentDemageStatusSerializer
+    queryset = ProtectedEquipmentDemageStatus.objects.all()
+
+class PRDInspectionEffectivenessAPIView(generics.ListAPIView):
+    serializer_class = PRDInspectionEffectivenessSerializer
+    queryset = PRDInspectionEffectiveness.objects.all()
+
+class OverPressureDemandCaseAPIView(generics.ListAPIView):
+    serializer_class = OverPressureDemandCaseSerializer
+    queryset = OverPressureDemandCase.objects.all()
+
+
+
+
+
 class GeneralInformationAPIView(
     mixins.CreateModelMixin,
-    # mixins.RetrieveModelMixin,
-    # mixins.UpdateModelMixin,
-    # mixins.DestroyModelMixin,
     generics.ListAPIView):
     permission_classes = [permissions.IsAuthenticatedOrReadOnly] # IsAuthenticated
-    # authentication_classes = [SessionAuthentication]
-    # Override queryset
-    # queryset = GeneralInformation.objects.all()
     serializer_class = GeneralInformationSerializer
     passed_id = None
 

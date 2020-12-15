@@ -1,6 +1,14 @@
 from rest_framework import serializers
 
 from webapp.models import (
+    TypeOfPRD,
+    ServiceSeverity,
+    PRDDischargeLocation,
+    EnvironmentFactorModifier,
+    ProtectedEquipmentDemageStatus,
+    PRDInspectionEffectiveness,
+    OverPressureDemandCase,
+
     GeneralInformation,
     PrdInspection_TestHistory,
     ConsequencesOfFailureInputData,
@@ -8,8 +16,53 @@ from webapp.models import (
     Prd_InspectionHistory,
     ApplicableOverpressureDemandCase
 )
+from ..IPRD_INPUT_CHOICES import IPRD_3_CHOICES
 import os
 
+
+class TypeOfPRDSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = TypeOfPRD
+        fields = '__all__'
+
+
+class ServiceSeveritySerializer(serializers.ModelSerializer):
+    class Meta:
+        model = ServiceSeverity
+        fields = '__all__'
+
+
+class PRDDischargeLocationSerializer(
+    serializers.ModelSerializer):
+    class Meta:
+        model = PRDDischargeLocation
+        fields = '__all__'
+
+class EnvironmentFactorModifierSerializer(
+    serializers.ModelSerializer):
+    class Meta:
+        model = EnvironmentFactorModifier
+        fields = '__all__'
+
+class ProtectedEquipmentDemageStatusSerializer(
+    serializers.ModelSerializer):
+    class Meta:
+        model = ProtectedEquipmentDemageStatus
+        fields = '__all__'
+
+
+class PRDInspectionEffectivenessSerializer(
+    serializers.ModelSerializer):
+    class Meta:
+        model = PRDInspectionEffectiveness
+        fields = '__all__'
+
+
+class OverPressureDemandCaseSerializer(
+    serializers.ModelSerializer):
+    class Meta:
+        model = OverPressureDemandCase
+        fields = '__all__'
 
 
 
