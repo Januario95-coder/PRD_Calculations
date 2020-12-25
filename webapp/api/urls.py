@@ -1,5 +1,7 @@
 from django.urls import path
 
+from .serializers import AllModelsSerializer
+
 from .views import (
     TypeOfPRDAPIView,
     ServiceSeverityAPIView,
@@ -21,6 +23,9 @@ from .views import (
 app_name = 'status_api'
 
 urlpatterns = [
+    path('all/', AllModelsSerializer.as_view()),
+
+
     path('type-of-prd/', TypeOfPRDAPIView.as_view()),
     path('service-severity/', ServiceSeverityAPIView.as_view()),
     path('prd-discharge/', PRDDischargeLocationAPIView.as_view()),

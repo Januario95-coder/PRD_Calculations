@@ -1,4 +1,7 @@
 from rest_framework import serializers
+from drf_multiple_model.views import (
+    ObjectMultipleModelAPIView
+)
 
 from webapp.models import (
     TypeOfPRD,
@@ -66,6 +69,11 @@ class OverPressureDemandCaseSerializer(
 
 
 
+
+
+
+
+
 class GeneralInformationSerializer(serializers.ModelSerializer):
     class Meta:
         model = GeneralInformation
@@ -105,3 +113,40 @@ class ApplicableOverpressureDemandCaseSerializer(serializers.ModelSerializer):
 
 class GeneralSerializer(serializers.ModelSerializer):
     pass
+
+
+
+
+class AllModelsSerializer(ObjectMultipleModelAPIView):
+    querylist = [
+        {
+            'queryset': GeneralInformation.objects.all(),
+            'serializer_class': GeneralSerializer,
+            'label': 'GeneralInformation'
+        },
+        {
+            'queryset': ProtectedEquipmentDemageStatus.objects.all(),
+            'serializer_class': ProtectedFixedEquipmentSerializer,
+            'label': 'ProtectedFixedEquipment'
+        },
+        {
+            'queryset': ConsequencesOfFailureInputData.objects.all(),
+            'serializer_class': ConsequencesOfFailureInputDataSerializer,
+            'label': 'ConsequencesOfFailureInputData'
+        },
+        {
+            'queryset': Consequences0fFailureOfLeakage.objects.all(),
+            'serializer_class': ConsequencesOfFailureOfLeakageSerializer,
+            'label': 'Consequences0fFailureOfLeakage'
+        },
+        {
+            'queryset': Prd_InspectionHistory.objects.all(),
+            'serializer_class': Prd_InspectionHistorySerializer,
+            'label': 'Prd_InspectionHistory'
+        },
+        {
+            'queryset': ApplicableOverpressureDemandCase.objects.all(),
+            'serializer_class': ApplicableOverpressureDemandCaseSerializer,
+            'label': 'ApplicableOverpressureDemandCase'
+        },
+    ]
