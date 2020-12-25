@@ -1,6 +1,8 @@
 from django.urls import path
 
-from .serializers import AllModelsSerializer
+from .serializers import (
+    AllModelsSerializer
+)
 
 from .views import (
     TypeOfPRDAPIView,
@@ -26,6 +28,7 @@ urlpatterns = [
     path('all/', AllModelsSerializer.as_view()),
 
 
+
     path('type-of-prd/', TypeOfPRDAPIView.as_view()),
     path('service-severity/', ServiceSeverityAPIView.as_view()),
     path('prd-discharge/', PRDDischargeLocationAPIView.as_view()),
@@ -34,10 +37,10 @@ urlpatterns = [
     path('inspe-effect/', PRDInspectionEffectivenessAPIView.as_view()),
     path('overpres-demand/', OverPressureDemandCaseAPIView.as_view()),
 
-    path('gen-info/', GeneralInformationAPIView.as_view()),
-    path('protected-equip/', ProtectedFixedEquipmentAPIView.as_view()),
-    path('conseq-failure/', ConsequencesOfFailureInputDataAPIView.as_view()),
-    path('conseq-leakage/', ConsequencesOfFailureOfLeakageAPIView.as_view()),
-    path('insp-history/', Prd_InspectionHistoryAPIView.as_view()),
-    path('overpressure-demand/', ApplicableOverpressureDemandCaseAPIView.as_view()),
+    # path('gen-info/', GeneralInformationAPIView.as_view()),
+    # path('protected-equip/', ProtectedFixedEquipmentAPIView.as_view()),
+    # path('conseq-failure/', ConsequencesOfFailureInputDataAPIView.as_view()),
+    # path('conseq-leakage/', ConsequencesOfFailureOfLeakageAPIView.as_view()),
+    # path('insp-history/', Prd_InspectionHistoryAPIView.as_view()),
+    # path('overpressure-demand/', ApplicableOverpressureDemandCaseAPIView.as_view()),
 ]

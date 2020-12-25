@@ -111,42 +111,63 @@ class ApplicableOverpressureDemandCaseSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 
-class GeneralSerializer(serializers.ModelSerializer):
-    pass
 
 
+
+
+
+def fetch_data(model, id):
+    print(model.__name__)
+    try:
+        id_ = int(id)
+        obj = model.objects.filter(id=id_)
+    except (ValueError, TypeError):
+        obj = model.objects.all()
+    return obj
 
 
 class AllModelsSerializer(ObjectMultipleModelAPIView):
-    querylist = [
-        {
-            'queryset': GeneralInformation.objects.all(),
-            'serializer_class': GeneralSerializer,
-            'label': 'GeneralInformation'
-        },
-        {
-            'queryset': ProtectedEquipmentDemageStatus.objects.all(),
-            'serializer_class': ProtectedFixedEquipmentSerializer,
-            'label': 'ProtectedFixedEquipment'
-        },
-        {
-            'queryset': ConsequencesOfFailureInputData.objects.all(),
-            'serializer_class': ConsequencesOfFailureInputDataSerializer,
-            'label': 'ConsequencesOfFailureInputData'
-        },
-        {
-            'queryset': Consequences0fFailureOfLeakage.objects.all(),
-            'serializer_class': ConsequencesOfFailureOfLeakageSerializer,
-            'label': 'Consequences0fFailureOfLeakage'
-        },
-        {
-            'queryset': Prd_InspectionHistory.objects.all(),
-            'serializer_class': Prd_InspectionHistorySerializer,
-            'label': 'Prd_InspectionHistory'
-        },
-        {
-            'queryset': ApplicableOverpressureDemandCase.objects.all(),
-            'serializer_class': ApplicableOverpressureDemandCaseSerializer,
-            'label': 'ApplicableOverpressureDemandCase'
-        },
-    ]
+    def get_querylist(self):
+        try:
+            id_ = self.request.query_params['id']
+        except:
+            id_ = None
+
+
+        querylist = [
+            {
+                'queryset': fetch_data(GeneralInformation, id_),
+                'serializer_class': GeneralInformationSerializer,
+                'label': 'GeneralInformation'
+            },
+            {
+                'queryset': fetch_data(ProtectedEquipmentDemageStatus, id_),
+                'serializer_class': ProtectedFixedEquipmentSerializer,
+                'label': 'ProtectedFixedEquipment'
+            },
+            {
+                'queryset': fetch_data(ConsequencesOfFailureInputData, id_),
+                'serializer_class': ConsequencesOfFailureInputDataSerializer,
+                'label': 'ConsequencesOfFailureInputData'
+            },
+            {
+                'queryset': fetch_data(Consequences0fFailureOfLeakage, id_),
+                'serializer_class': ConsequencesOfFailureOfLeakageSerializer,
+                'label': 'Consequences0fFailureOfLeakage'
+            },
+            {
+                'queryset': fetch_data(Prd_InspectionHistory, id_),
+                'serializer_class': Prd_InspectionHistorySerializer,
+                'label': 'Prd_InspectionHistory'
+            },
+            {
+                'queryset': fetch_data(ApplicableOverpressureDemandCase, id_),
+                'serializer_class': ApplicableOverpressureDemandCaseSerializer,
+                'label': 'ApplicableOverpressureDemandCase'
+            },
+        ]
+        return querylist
+
+
+
+
