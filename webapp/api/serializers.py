@@ -117,7 +117,6 @@ class ApplicableOverpressureDemandCaseSerializer(serializers.ModelSerializer):
 
 
 def fetch_data(model, id):
-    print(model.__name__)
     try:
         id_ = int(id)
         obj = model.objects.filter(id=id_)
