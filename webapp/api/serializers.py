@@ -141,7 +141,7 @@ class AllModelsSerializer(ObjectMultipleModelAPIView):
                 'label': 'GeneralInformation'
             },
             {
-                'queryset': fetch_data(ProtectedEquipmentDemageStatus, id_),
+                'queryset': fetch_data(PrdInspection_TestHistory, id_),
                 'serializer_class': ProtectedFixedEquipmentSerializer,
                 'label': 'ProtectedFixedEquipment'
             },
