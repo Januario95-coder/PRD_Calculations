@@ -2135,7 +2135,7 @@ def create_prd(request):
     print(f'Fifth case  (POL): {determine_case_five_leakage(objects_history_data)}')
     print(f'Sixth case  (POL): {determine_case_six_leakage(objects_history_data)}')
     return render(request,
-                  'webapp/Pages/create_prd.html',
+                  'webapp/Pages/prd_data.html',
                   {
                       'form_general': form_general,
                        'form_inspection': form_inspection,

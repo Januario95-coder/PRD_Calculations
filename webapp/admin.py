@@ -2,15 +2,15 @@ from django.contrib import admin
 from django.core.serializers import serialize
 from django.http import HttpResponse
 from webapp.models import (
-    # TypeOfPRD,
-    # ServiceSeverity,
-    # PRDDischargeLocation,
-    # EnvironmentFactorModifier,
-    # ProtectedEquipmentDemageStatus,
-    # PRDInspectionEffectiveness,
-    # OverPressureDemandCase,
+    TypeOfPRD,
+    ServiceSeverity,
+    PRDDischargeLocation,
+    EnvironmentFactorModifier,
+    ProtectedEquipmentDemageStatus,
+    PRDInspectionEffectiveness,
+    OverPressureDemandCase,
 
-    # SelectField,
+    SelectField,
 
     GeneralInformation,
     PrdInspection_TestHistory,
@@ -57,43 +57,46 @@ export_to_csv.short_description = "Export to CSV"
 # export_as_json.short_description = "Export as JSON"
 
 
-# @admin.register(TypeOfPRD)
-# class TypeOfPRDAdmin(admin.ModelAdmin):
-#     list_display = ['Type_of_PRD']
+@admin.register(TypeOfPRD)
+class TypeOfPRDAdmin(admin.ModelAdmin):
+    list_display = ['Type_of_PRD']
 
 
-# @admin.register(ServiceSeverity)
-# class ServiceSeverityAdmin(admin.ModelAdmin):
-#     list_display = ['Service_severity']
+@admin.register(ServiceSeverity)
+class ServiceSeverityAdmin(admin.ModelAdmin):
+    list_display = ['Service_severity']
 
-# @admin.register(PRDDischargeLocation)
-# class PRDDischargeLocationAdmin(admin.ModelAdmin):
-#     list_display = ['PRD_Discharge_Location']
+@admin.register(PRDDischargeLocation)
+class PRDDischargeLocationAdmin(admin.ModelAdmin):
+    list_display = ['PRD_Discharge_Location']
 
-# @admin.register(EnvironmentFactorModifier)
-# class EnvironmentFactorModifierAdmin(admin.ModelAdmin):
-#     list_display = ['Environment_Factor_Modifier']
+@admin.register(EnvironmentFactorModifier)
+class EnvironmentFactorModifierAdmin(admin.ModelAdmin):
+    list_display = ['Environment_Factor_Modifier']
 
-# @admin.register(ProtectedEquipmentDemageStatus)
-# class ProtectedEquipmentDemageStatusAdmin(admin.ModelAdmin):
-#     list_display = ['Protected_Equipment_Demage_Status']
+@admin.register(ProtectedEquipmentDemageStatus)
+class ProtectedEquipmentDemageStatusAdmin(admin.ModelAdmin):
+    list_display = ['Protected_Equipment_Demage_Status']
 
-# @admin.register(PRDInspectionEffectiveness)
-# class PRDInspectionEffectivenessAdmin(admin.ModelAdmin):
-#     list_display = ['PRD_Inspection_Effectiveness']
+@admin.register(PRDInspectionEffectiveness)
+class PRDInspectionEffectivenessAdmin(admin.ModelAdmin):
+    list_display = ['PRD_Inspection_Effectiveness']
 
-# @admin.register(OverPressureDemandCase)
-# class OverPressureDemandCaseAdmin(admin.ModelAdmin):
-#     list_display = ['Over_pressure_demand_case']
+@admin.register(OverPressureDemandCase)
+class OverPressureDemandCaseAdmin(admin.ModelAdmin):
+    list_display = ['Over_pressure_demand_case']
 
 
 
-# @admin.register(SelectField)
-# class SelectFieldAdmin(admin.ModelAdmin):
-#     list_display = ['Type_of_PRD',
-#                     'Service_severity',
-#                     'PRD_Discharge_Location',
-#                     'Environment_Factor_Modifier']
+@admin.register(SelectField)
+class SelectFieldAdmin(admin.ModelAdmin):
+    list_display = ['Type_of_PRD',
+                    'Service_severity',
+                    'PRD_Discharge_Location',
+                    'Environment_Factor_Modifier',
+                    'ProtectedEquipmentDemageStatus',
+                    'PRDInspectionEffectiveness',
+                    'OverPressureDemandCase']
 
 
 

@@ -3,9 +3,15 @@ from rest_framework.response import Response
 from rest_framework import (
     generics, mixins, permissions
 )
+from rest_framework.viewsets import ModelViewSet
+from rest_framework import status
+from rest_framework.decorators import api_view
+from django.core.serializers import serialize
 
 from django.shortcuts import get_object_or_404
 from rest_framework.authentication import SessionAuthentication
+
+
 
 from .serializers import (
     TypeOfPRDSerializer,
@@ -15,13 +21,15 @@ from .serializers import (
     ProtectedEquipmentDemageStatusSerializer,
     PRDInspectionEffectivenessSerializer,
     OverPressureDemandCaseSerializer,
+    
+    SelectFieldSerializer,
 
     GeneralInformationSerializer,
     ProtectedFixedEquipmentSerializer,
     ConsequencesOfFailureInputDataSerializer,
     ConsequencesOfFailureOfLeakageSerializer,
     Prd_InspectionHistorySerializer,
-    ApplicableOverpressureDemandCaseSerializer
+    ApplicableOverpressureDemandCaseSerializer,
 )
 from webapp.models import (
     TypeOfPRD,
@@ -31,6 +39,8 @@ from webapp.models import (
     ProtectedEquipmentDemageStatus,
     PRDInspectionEffectiveness,
     OverPressureDemandCase,
+    
+    SelectField,
 
     GeneralInformation,
     PrdInspection_TestHistory,
@@ -58,6 +68,12 @@ def is_json(json_data):
     except ValueError:
         is_valid = False
     return is_valid
+
+
+
+class SelectFieldAPIView(generics.ListAPIView):
+    serializer_class = SelectFieldSerializer
+    queryset = SelectField.objects.all()
 
 
 
@@ -267,3 +283,85 @@ class ApplicableOverpressureDemandCaseAPIView(
 
     def perform_create(self, serializer):
         serializer.save(user=self.request.user)
+        
+        
+        
+def fetch_data(model, id=None):
+    objs = model.objects.all()
+    if id is not None:
+        objs = objs.filter(id=id) 
+
+        
+    return objs
+ 
+
+
+
+        
+@api_view(['GET'])
+def all_models(request):
+    gen = fetch_data(GeneralInformation) 
+    prd_inspe = fetch_data(PrdInspection_TestHistory) 
+    histo = fetch_data(ConsequencesOfFailureInputData) 
+    conseq_failure = fetch_data(Consequences0fFailureOfLeakage) 
+    prd_hist = fetch_data(Prd_InspectionHistory) 
+    appl_dem = fetch_data(ApplicableOverpressureDemandCase) 
+
+    data = []
+    for val1, val2, val3, val4, val5, val6 in zip(gen.serialize(), 
+                                                  prd_inspe.serialize(),
+                                                  histo.serialize(),
+                                                  conseq_failure.serialize(),
+                                                  prd_hist.serialize(),
+                                                  appl_dem.serialize()):
+        
+        val1.update({'PrdInspection_TestHistory': val2})
+        val1.update({'ConsequencesOfFailureInputData': val3})
+        val1.update({'Consequences0fFailureOfLeakage': val4})
+        val1.update({'Prd_InspectionHistory': val5})
+        val1.update({'ApplicableOverpressureDemandCase': val6})
+        data.append(val1)
+
+        
+    return Response(
+        data
+    )
+        
+        
+        
+@api_view(['GET'])
+def all_models_by_id(request, id):
+    gen = fetch_data(GeneralInformation, id=id)
+    prd_inspe = fetch_data(PrdInspection_TestHistory, id=id) 
+    conseq_failure = fetch_data(ConsequencesOfFailureInputData, id=id) 
+    conseq_leakage = fetch_data(Consequences0fFailureOfLeakage, id=id) 
+    prd_hist = fetch_data(Prd_InspectionHistory, id=id) 
+    appl_dem = fetch_data(ApplicableOverpressureDemandCase, id=id)
+
+    try:
+        data = gen.serialize()[0].copy()
+        data.update({'PrdInspection_TestHistory': prd_inspe.serialize()[0]})
+        data.update({'ConsequencesOfFailureInputData': conseq_failure.serialize()[0]})
+        data.update({'Consequences0fFailureOfLeakage': conseq_leakage.serialize()[0]})
+        data.update({'Prd_InspectionHistory': prd_hist.serialize()[0]})
+        data.update({'ApplicableOverpressureDemandCase': appl_dem.serialize()[0]})
+        
+    except:
+        data = [{}]
+    
+
+    return Response(
+        data
+    )
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        

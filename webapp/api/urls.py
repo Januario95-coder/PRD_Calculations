@@ -1,8 +1,4 @@
-from django.urls import path
-
-from .serializers import (
-    AllModelsSerializer
-)
+from django.urls import path, include
 
 from .views import (
     TypeOfPRDAPIView,
@@ -11,6 +7,8 @@ from .views import (
     ProtectedEquipmentDemageStatusAPIView,
     PRDInspectionEffectivenessAPIView,
     OverPressureDemandCaseAPIView,
+    
+    SelectFieldAPIView,
 
     EnvironmentFactorModifierAPIView,
     GeneralInformationAPIView,
@@ -18,15 +16,22 @@ from .views import (
     ConsequencesOfFailureInputDataAPIView,
     ConsequencesOfFailureOfLeakageAPIView,
     Prd_InspectionHistoryAPIView,
-    ApplicableOverpressureDemandCaseAPIView
+    ApplicableOverpressureDemandCaseAPIView,
+    
+    all_models,
+    all_models_by_id
 )
 
 
 app_name = 'status_api'
 
-urlpatterns = [
-    path('all/', AllModelsSerializer.as_view()),
 
+
+urlpatterns = [
+    path('prd/', all_models),
+    path('prd/<int:id>/', all_models_by_id),
+    
+    path('select-field/', SelectFieldAPIView.as_view()),
 
 
     path('type-of-prd/', TypeOfPRDAPIView.as_view()),
@@ -36,11 +41,4 @@ urlpatterns = [
     path('protect-equip/', ProtectedEquipmentDemageStatusAPIView.as_view()),
     path('inspe-effect/', PRDInspectionEffectivenessAPIView.as_view()),
     path('overpres-demand/', OverPressureDemandCaseAPIView.as_view()),
-
-    # path('gen-info/', GeneralInformationAPIView.as_view()),
-    # path('protected-equip/', ProtectedFixedEquipmentAPIView.as_view()),
-    # path('conseq-failure/', ConsequencesOfFailureInputDataAPIView.as_view()),
-    # path('conseq-leakage/', ConsequencesOfFailureOfLeakageAPIView.as_view()),
-    # path('insp-history/', Prd_InspectionHistoryAPIView.as_view()),
-    # path('overpressure-demand/', ApplicableOverpressureDemandCaseAPIView.as_view()),
 ]

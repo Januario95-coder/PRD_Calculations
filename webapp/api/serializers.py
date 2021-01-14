@@ -1,7 +1,5 @@
 from rest_framework import serializers
-from drf_multiple_model.views import (
-    ObjectMultipleModelAPIView
-)
+
 
 from webapp.models import (
     TypeOfPRD,
@@ -11,6 +9,8 @@ from webapp.models import (
     ProtectedEquipmentDemageStatus,
     PRDInspectionEffectiveness,
     OverPressureDemandCase,
+    
+    SelectField,
 
     GeneralInformation,
     PrdInspection_TestHistory,
@@ -21,6 +21,13 @@ from webapp.models import (
 )
 from ..IPRD_INPUT_CHOICES import IPRD_3_CHOICES
 import os
+
+
+class SelectFieldSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = SelectField
+        fields = '__all__'
+
 
 
 class TypeOfPRDSerializer(serializers.ModelSerializer):
@@ -116,56 +123,16 @@ class ApplicableOverpressureDemandCaseSerializer(serializers.ModelSerializer):
 
 
 
-def fetch_data(model, id):
-    try:
-        id_ = int(id)
-        obj = model.objects.filter(id=id_)
-    except (ValueError, TypeError):
-        obj = model.objects.all()
-    return obj
 
 
-class AllModelsSerializer(ObjectMultipleModelAPIView):
-    def get_querylist(self):
-        try:
-            id_ = self.request.query_params['id']
-        except:
-            id_ = None
 
 
-        querylist = [
-            {
-                'queryset': fetch_data(GeneralInformation, id_),
-                'serializer_class': GeneralInformationSerializer,
-                'label': 'GeneralInformation'
-            },
-            {
-                'queryset': fetch_data(PrdInspection_TestHistory, id_),
-                'serializer_class': ProtectedFixedEquipmentSerializer,
-                'label': 'ProtectedFixedEquipment'
-            },
-            {
-                'queryset': fetch_data(ConsequencesOfFailureInputData, id_),
-                'serializer_class': ConsequencesOfFailureInputDataSerializer,
-                'label': 'ConsequencesOfFailureInputData'
-            },
-            {
-                'queryset': fetch_data(Consequences0fFailureOfLeakage, id_),
-                'serializer_class': ConsequencesOfFailureOfLeakageSerializer,
-                'label': 'Consequences0fFailureOfLeakage'
-            },
-            {
-                'queryset': fetch_data(Prd_InspectionHistory, id_),
-                'serializer_class': Prd_InspectionHistorySerializer,
-                'label': 'Prd_InspectionHistory'
-            },
-            {
-                'queryset': fetch_data(ApplicableOverpressureDemandCase, id_),
-                'serializer_class': ApplicableOverpressureDemandCaseSerializer,
-                'label': 'ApplicableOverpressureDemandCase'
-            },
-        ]
-        return querylist
+
+
+
+
+
+
 
 
 
