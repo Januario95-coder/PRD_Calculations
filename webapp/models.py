@@ -10,18 +10,18 @@ degree_sign = u"\N{DEGREE SIGN}"
 
 
 class TypeOfPRD(models.Model):
-    Type_of_PRD = models.CharField(max_length=25,
-                                   choices=IPRD_3_CHOICES,
-                                   default='convention_spring_loaded')
+    Type_of_PRD = models.CharField(max_length=30)
+                                   #choices=IPRD_3_CHOICES,
+                                   #default='convention_spring_loaded')
                                    
     def __str__(self):
         return self.Type_of_PRD
 
 
 class ServiceSeverity(models.Model):
-    Service_severity = models.CharField(max_length=15,
-                       choices=IPRD_6_CHOICES,
-                       default='mild')
+    Service_severity = models.CharField(max_length=15)
+                       #choices=IPRD_6_CHOICES,
+                       #default='mild')
                        
     def __str__(self):
         return self.Service_severity
@@ -29,18 +29,18 @@ class ServiceSeverity(models.Model):
 
 
 class PRDDischargeLocation(models.Model):
-    PRD_Discharge_Location = models.CharField(max_length=25,
-                             choices=IPRD_7_CHOICES,
-                             default='atmosphere')
+    PRD_Discharge_Location = models.CharField(max_length=25)
+                             #choices=IPRD_7_CHOICES,
+                             #default='atmosphere')
                              
     def __str__(self):
         return self.PRD_Discharge_Location
 
 
 class EnvironmentFactorModifier(models.Model):
-    Environment_Factor_Modifier = models.CharField(max_length=100,
-                            choices=IPRD_8_CHOICES,
-                            default=f'99.33 {degree_sign}C < T < 260 {degree_sign}C')
+    Environment_Factor_Modifier = models.CharField(max_length=100)
+                            #choices=IPRD_8_CHOICES,
+                            #default=f'99.33 {degree_sign}C < T < 260 {degree_sign}C')
                             
     def __str__(self):
         return self.Environment_Factor_Modifier
@@ -48,27 +48,27 @@ class EnvironmentFactorModifier(models.Model):
 
 
 class ProtectedEquipmentDemageStatus(models.Model):
-    Protected_Equipment_Demage_Status = models.CharField(max_length=15,
-                            choices=IPRD_19_CHOICES,
-                            default='none')
+    Protected_Equipment_Demage_Status = models.CharField(max_length=15)
+                            #choices=IPRD_19_CHOICES,
+                            #default='none')
                             
     def __str__(self):
         return self.Protected_Equipment_Demage_Status
 
 
 class PRDInspectionEffectiveness(models.Model):
-    PRD_Inspection_Effectiveness = models.CharField(max_length=30,
-                            choices=IPRD_13_CHOICES,
-                            default='highly_effective')
+    PRD_Inspection_Effectiveness = models.CharField(max_length=30)
+                            #choices=IPRD_13_CHOICES,
+                            #default='highly_effective')
                             
     def __str__(self):
         return self.PRD_Inspection_Effectiveness
 
 
 class OverPressureDemandCase(models.Model):
-    Over_pressure_demand_case = models.CharField(max_length=100,
-                            choices=IPRD_16_CHOICES,
-                            default='fire')
+    Over_pressure_demand_case = models.CharField(max_length=100)
+                            #choices=IPRD_16_CHOICES,
+                            #default='fire')
                             
     def __str__(self):
         return self.Over_pressure_demand_case
