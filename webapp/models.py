@@ -11,11 +11,12 @@ degree_sign = u"\N{DEGREE SIGN}"
 
 class TypeOfPRD(models.Model):
     Type_of_PRD = models.CharField(max_length=30)
+				   # removed from database
                                    #choices=IPRD_3_CHOICES,
                                    #default='convention_spring_loaded')
                                    
     def __str__(self):
-        return self.Type_of_PRD
+        return f'{self.Type_of_PRD}'
 
 
 class ServiceSeverity(models.Model):
@@ -24,7 +25,7 @@ class ServiceSeverity(models.Model):
                        #default='mild')
                        
     def __str__(self):
-        return self.Service_severity
+        return f'{self.Service_severity}'
        
 
 
@@ -34,7 +35,7 @@ class PRDDischargeLocation(models.Model):
                              #default='atmosphere')
                              
     def __str__(self):
-        return self.PRD_Discharge_Location
+        return f'{self.PRD_Discharge_Location}'
 
 
 class EnvironmentFactorModifier(models.Model):
@@ -43,7 +44,7 @@ class EnvironmentFactorModifier(models.Model):
                             #default=f'99.33 {degree_sign}C < T < 260 {degree_sign}C')
                             
     def __str__(self):
-        return self.Environment_Factor_Modifier
+        return f'{self.Environment_Factor_Modifier}'
 
 
 
@@ -53,7 +54,7 @@ class ProtectedEquipmentDemageStatus(models.Model):
                             #default='none')
                             
     def __str__(self):
-        return self.Protected_Equipment_Demage_Status
+        return f'{self.Protected_Equipment_Demage_Status}'
 
 
 class PRDInspectionEffectiveness(models.Model):
@@ -62,7 +63,7 @@ class PRDInspectionEffectiveness(models.Model):
                             #default='highly_effective')
                             
     def __str__(self):
-        return self.PRD_Inspection_Effectiveness
+        return f'{self.PRD_Inspection_Effectiveness}'
 
 
 class OverPressureDemandCase(models.Model):
@@ -71,7 +72,7 @@ class OverPressureDemandCase(models.Model):
                             #default='fire')
                             
     def __str__(self):
-        return self.Over_pressure_demand_case
+        return f'{self.Over_pressure_demand_case}'
 
 
 class SelectField(models.Model):
