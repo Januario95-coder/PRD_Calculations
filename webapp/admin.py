@@ -59,32 +59,32 @@ export_to_csv.short_description = "Export to CSV"
 
 @admin.register(TypeOfPRD)
 class TypeOfPRDAdmin(admin.ModelAdmin):
-    list_display = ['Type_of_PRD']
+    list_display = ['id', 'Type_of_PRD']
 
 
 @admin.register(ServiceSeverity)
 class ServiceSeverityAdmin(admin.ModelAdmin):
-    list_display = ['Service_severity']
+    list_display = ['id', 'Service_severity']
 
 @admin.register(PRDDischargeLocation)
 class PRDDischargeLocationAdmin(admin.ModelAdmin):
-    list_display = ['PRD_Discharge_Location']
+    list_display = ['id', 'PRD_Discharge_Location']
 
 @admin.register(EnvironmentFactorModifier)
 class EnvironmentFactorModifierAdmin(admin.ModelAdmin):
-    list_display = ['Environment_Factor_Modifier']
+    list_display = ['id', 'Environment_Factor_Modifier']
 
 @admin.register(ProtectedEquipmentDemageStatus)
 class ProtectedEquipmentDemageStatusAdmin(admin.ModelAdmin):
-    list_display = ['Protected_Equipment_Demage_Status']
+    list_display = ['id', 'Protected_Equipment_Demage_Status']
 
 @admin.register(PRDInspectionEffectiveness)
 class PRDInspectionEffectivenessAdmin(admin.ModelAdmin):
-    list_display = ['PRD_Inspection_Effectiveness']
+    list_display = ['id', 'PRD_Inspection_Effectiveness']
 
 @admin.register(OverPressureDemandCase)
 class OverPressureDemandCaseAdmin(admin.ModelAdmin):
-    list_display = ['Over_pressure_demand_case']
+    list_display = ['id', 'Over_pressure_demand_case']
 
 
 
