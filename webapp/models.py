@@ -10,69 +10,69 @@ degree_sign = u"\N{DEGREE SIGN}"
 
 
 class TypeOfPRD(models.Model):
-    Type_of_PRD = models.CharField(max_length=30)
+    name = models.CharField(max_length=30)
 				   # removed from database
                                    #choices=IPRD_3_CHOICES,
                                    #default='convention_spring_loaded')
                                    
     def __str__(self):
-        return f'{self.Type_of_PRD}'
+        return f'{self.name}'
 
 
 class ServiceSeverity(models.Model):
-    Service_severity = models.CharField(max_length=15)
+    name = models.CharField(max_length=15)
                        #choices=IPRD_6_CHOICES,
                        #default='mild')
                        
     def __str__(self):
-        return f'{self.Service_severity}'
+        return f'{self.name}'
        
 
 
 class PRDDischargeLocation(models.Model):
-    PRD_Discharge_Location = models.CharField(max_length=25)
+    name = models.CharField(max_length=25)
                              #choices=IPRD_7_CHOICES,
                              #default='atmosphere')
                              
     def __str__(self):
-        return f'{self.PRD_Discharge_Location}'
+        return f'{self.name}'
 
 
 class EnvironmentFactorModifier(models.Model):
-    Environment_Factor_Modifier = models.CharField(max_length=100)
+    name = models.CharField(max_length=100)
                             #choices=IPRD_8_CHOICES,
                             #default=f'99.33 {degree_sign}C < T < 260 {degree_sign}C')
                             
     def __str__(self):
-        return f'{self.Environment_Factor_Modifier}'
+        return f'{self.name}'
 
 
 
 class ProtectedEquipmentDemageStatus(models.Model):
-    Protected_Equipment_Demage_Status = models.CharField(max_length=15)
+    name = models.CharField(max_length=15)
                             #choices=IPRD_19_CHOICES,
                             #default='none')
                             
     def __str__(self):
-        return f'{self.Protected_Equipment_Demage_Status}'
+        return f'{self.name}'
 
 
 class PRDInspectionEffectiveness(models.Model):
-    PRD_Inspection_Effectiveness = models.CharField(max_length=30)
+    name = models.CharField(max_length=30)
                             #choices=IPRD_13_CHOICES,
                             #default='highly_effective')
                             
     def __str__(self):
-        return f'{self.PRD_Inspection_Effectiveness}'
+        return f'{self.name}'
 
 
 class OverPressureDemandCase(models.Model):
-    Over_pressure_demand_case = models.CharField(max_length=100)
+    name = models.CharField(max_length=100)
                             #choices=IPRD_16_CHOICES,
                             #default='fire')
                             
     def __str__(self):
-        return f'{self.Over_pressure_demand_case}'
+        return f'{self.name}'
 
 
 class SelectField(models.Model):
