@@ -9,11 +9,11 @@ from webapp.models import (
     ProtectedEquipmentDemageStatus,
     PRDInspectionEffectiveness,
     OverPressureDemandCase,
-    
+
     SelectField,
 
     GeneralInformation,
-    PrdInspection_TestHistory,
+    ProtectedFixedEquipmentPipingData,
     ConsequencesOfFailureInputData,
     Consequences0fFailureOfLeakage,
     Prd_InspectionHistory,
@@ -33,7 +33,7 @@ class SelectFieldSerializer(serializers.ModelSerializer):
 class TypeOfPRDSerializer(serializers.ModelSerializer):
     class Meta:
         model = TypeOfPRD
-        fields = '__all__'
+        fields = ['id', 'name']
 
 
 class ServiceSeveritySerializer(serializers.ModelSerializer):
@@ -89,7 +89,7 @@ class GeneralInformationSerializer(serializers.ModelSerializer):
 
 class ProtectedFixedEquipmentSerializer(serializers.ModelSerializer):
     class Meta:
-        model = PrdInspection_TestHistory
+        model = ProtectedFixedEquipmentPipingData
         fields = '__all__'
 
 

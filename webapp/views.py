@@ -12,7 +12,7 @@ from django.contrib.auth.decorators import login_required
 from .forms import (
     LoginForm,
     GeneralInformationForm,
-    PRD_InspectionForm,
+    ProtectedFixedEquipmentPipingDataForm,
     ConsequencesOfFailureInputDataForm,
     Consequences0fFailureOfLeakageForm,
     ApplicableOverpressureDemandCaseForm,
@@ -734,7 +734,7 @@ def create_prd(request):
     fetch_obj_ids(objects_history_data)
     applicable_overpress_data = fetch_applicable_overpressure()
     form_general = GeneralInformationForm(request.POST)
-    form_inspection = PRD_InspectionForm(request.POST)
+    form_inspection = ProtectedFixedEquipmentPipingDataForm(request.POST)
     failure_to_open_form = ConsequencesOfFailureInputDataForm(request.POST)
     failure_of_leakage_form = Consequences0fFailureOfLeakageForm(request.POST)
     inspection_history = Prd_InspectionHistoryForm(request.POST)
@@ -2174,7 +2174,7 @@ def applicable_overpres_demand_case(request):
 @login_required(login_url='/prd/login')
 def prd_input_data(request):
     form_general = GeneralInformationForm(request.POST)
-    form_inspection = PRD_InspectionForm(request.POST)
+    form_inspection = ProtectedFixedEquipmentPipingDataForm(request.POST)
     failure_to_open_form = ConsequencesOfFailureInputDataForm(request.POST)
     failure_of_leakage_form = Consequences0fFailureOfLeakageForm(request.POST)
     applicable_overpressure_demand = ApplicableOverpressureDemandCaseForm()

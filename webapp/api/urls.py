@@ -7,7 +7,7 @@ from .views import (
     ProtectedEquipmentDemageStatusAPIView,
     PRDInspectionEffectivenessAPIView,
     OverPressureDemandCaseAPIView,
-    
+
     SelectFieldAPIView,
 
     EnvironmentFactorModifierAPIView,
@@ -17,21 +17,43 @@ from .views import (
     ConsequencesOfFailureOfLeakageAPIView,
     Prd_InspectionHistoryAPIView,
     ApplicableOverpressureDemandCaseAPIView,
-    
+
     all_models,
-    all_models_by_id
+    all_models_by_id,
+
+
 )
 
+from .views_2 import (
+    GeneralInformationAPIView as GenInfo,
+    ProtectedFixedEquipmentAPIView as ProtectFiex,
+    Prd_InspectionHistoryAPIView as Prd_Inspe,
+
+    all_models as joined_models,
+    all_models_by_id as by_id,
+    test_by_id,
+    test_all,
+)
+
+from .serializers_2 import (
+    AllModels,
+    AllModelsById,
+
+    models_by_id
+)
 
 app_name = 'status_api'
 
 
-
 urlpatterns = [
-    path('prd/', all_models),
-    path('prd/<int:id>/', all_models_by_id),
+    path('all/', AllModels.as_view()),
+    path('all/<int:id>/', AllModelsById.as_view()),
+
+    #path('prd/', joined_models),
+    #path('prd/<int:id>/', by_id),
     
-    path('select-field/', SelectFieldAPIView.as_view()),
+    path('prd/<int:id>/', test_by_id),
+    path('prd/', test_all),
 
 
     path('type-of-prd/', TypeOfPRDAPIView.as_view()),

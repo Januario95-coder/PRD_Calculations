@@ -1,6 +1,6 @@
 from .models import (
     GeneralInformation,
-    PrdInspection_TestHistory,
+    ProtectedFixedEquipmentPipingData,
     ConsequencesOfFailureInputData,
     Consequences0fFailureOfLeakage,
     ApplicableOverpressureDemandCase,
@@ -106,7 +106,7 @@ class GeneralInformationForm(forms.ModelForm):
                 ]
 
 
-class PRD_InspectionForm(forms.ModelForm):
+class ProtectedFixedEquipmentPipingDataForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super(PRD_InspectionForm, self).__init__(*args, **kwargs)
         self.fields['Fixed_Equipment_Protected_by_PRD'].widget.attrs.update({
@@ -121,7 +121,7 @@ class PRD_InspectionForm(forms.ModelForm):
         self.fields['Operating_Pressure_of_the_Protected_Equipment'].required = False
 
     class Meta:
-        model = PrdInspection_TestHistory
+        model = ProtectedFixedEquipmentPipingData
         fields = ['Fixed_Equipment_Protected_by_PRD',
                   'Protected_Equipment_Demage_Status',
                   'Maximum_Allow_able_Working_Pressure_of_Protected_Equipment',

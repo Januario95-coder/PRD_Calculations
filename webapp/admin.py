@@ -10,10 +10,8 @@ from webapp.models import (
     PRDInspectionEffectiveness,
     OverPressureDemandCase,
 
-    SelectField,
-
     GeneralInformation,
-    PrdInspection_TestHistory,
+    ProtectedFixedEquipmentPipingData,
     ConsequencesOfFailureInputData,
     Consequences0fFailureOfLeakage,
     ApplicableOverpressureDemandCase,
@@ -88,6 +86,7 @@ class OverPressureDemandCaseAdmin(admin.ModelAdmin):
 
 
 
+"""
 @admin.register(SelectField)
 class SelectFieldAdmin(admin.ModelAdmin):
     list_display = ['Type_of_PRD',
@@ -97,12 +96,12 @@ class SelectFieldAdmin(admin.ModelAdmin):
                     'ProtectedEquipmentDemageStatus',
                     'PRDInspectionEffectiveness',
                     'OverPressureDemandCase']
-
+"""
 
 
 
 @admin.register(GeneralInformation)
-class PRDAdmin(admin.ModelAdmin):
+class GeneralInformationAdmin(admin.ModelAdmin):
     list_display = ['id', 'PRD_identification_number', 'PRD_function',
                     'Installation_of_PRD', 'RBI_assessment_date',
                     'Type_of_PRD', 'PRD_Containing_Soft_Seats',
@@ -123,7 +122,7 @@ class PRDAdmin(admin.ModelAdmin):
 
 
 
-@admin.register(PrdInspection_TestHistory)
+@admin.register(ProtectedFixedEquipmentPipingData)
 class PrdInspectionHistory(admin.ModelAdmin):
     list_display = ['id', 'Fixed_Equipment_Protected_by_PRD',
                     'Protected_Equipment_Demage_Status']

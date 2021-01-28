@@ -10,67 +10,66 @@ degree_sign = u"\N{DEGREE SIGN}"
 
 
 class TypeOfPRD(models.Model):
-    name = models.CharField(max_length=30)
-				   # removed from database
-                                   #choices=IPRD_3_CHOICES,
-                                   #default='convention_spring_loaded')
-                                   
+    name = models.CharField(max_length=30,
+                            choices=IPRD_3_CHOICES,
+                            default='convention_spring_loaded')
+
     def __str__(self):
         return f'{self.name}'
 
 
 class ServiceSeverity(models.Model):
-    name = models.CharField(max_length=15)
-                       #choices=IPRD_6_CHOICES,
-                       #default='mild')
-                       
+    name = models.CharField(max_length=15,
+                            choices=IPRD_6_CHOICES,
+                            default='mild')
+
     def __str__(self):
         return f'{self.name}'
-       
+
 
 
 class PRDDischargeLocation(models.Model):
-    name = models.CharField(max_length=25)
-                             #choices=IPRD_7_CHOICES,
-                             #default='atmosphere')
-                             
+    name = models.CharField(max_length=25,
+                             choices=IPRD_7_CHOICES,
+                             default='atmosphere')
+
     def __str__(self):
         return f'{self.name}'
 
 
 class EnvironmentFactorModifier(models.Model):
-    name = models.CharField(max_length=100)
-                            #choices=IPRD_8_CHOICES,
-                            #default=f'99.33 {degree_sign}C < T < 260 {degree_sign}C')
-                            
+    name = models.CharField(max_length=100,
+                            choices=IPRD_8_CHOICES,
+                            default=f'99.33 {degree_sign}C < T < 260 {degree_sign}C')
+
     def __str__(self):
         return f'{self.name}'
 
 
 
 class ProtectedEquipmentDemageStatus(models.Model):
-    name = models.CharField(max_length=15)
-                            #choices=IPRD_19_CHOICES,
-                            #default='none')
-                            
+    name = models.CharField(max_length=15,
+                            choices=IPRD_19_CHOICES,
+                            default='none')
+
     def __str__(self):
         return f'{self.name}'
 
 
 class PRDInspectionEffectiveness(models.Model):
-    name = models.CharField(max_length=30)
-                            #choices=IPRD_13_CHOICES,
-                            #default='highly_effective')
-                            
+    name = models.CharField(max_length=30,
+                            choices=IPRD_13_CHOICES,
+                            default='highly_effective')
+
     def __str__(self):
         return f'{self.name}'
 
 
 class OverPressureDemandCase(models.Model):
-    name = models.CharField(max_length=100)
-                            #choices=IPRD_16_CHOICES,
-                            #default='fire')
-                            
+    name = models.CharField(max_length=100,
+                            choices=IPRD_16_CHOICES,
+                            default='fire')
+
     def __str__(self):
         return f'{self.name}'
 
@@ -98,9 +97,9 @@ class SelectField(models.Model):
 
 
 
-class GeneralInformationQuerySet(models.QuerySet):         
+class GeneralInformationQuerySet(models.QuerySet):
     def serialize(self):
-        list_values = list(self.values("id", "PRD_identification_number", 
+        list_values = list(self.values("id", "PRD_identification_number",
                                        "PRD_function",
                                        "Installation_of_PRD",
                                        "RBI_assessment_date",
@@ -129,9 +128,12 @@ class GeneralInformation(models.Model):
     PRD_function = models.CharField(max_length=150)
     Installation_of_PRD = models.DateField(default=datetime.now)
     RBI_assessment_date = models.DateField(default=datetime.now)
-    Type_of_PRD = models.CharField(max_length=25,
-                                   choices=IPRD_3_CHOICES,
-                                   default='convention_spring_loaded')
+    Type_of_PRD = models.ForeignKey(TypeOfPRD,
+                            on_delete=models.CASCADE)
+
+    #Type_of_PRD = models.CharField(max_length=25,
+    #                               choices=IPRD_3_CHOICES,
+    #                               default='convention_spring_loaded')
     PRD_Containing_Soft_Seats = models.CharField(
                 max_length=15,
                 choices=IPRD_4_CHOICES,
@@ -139,29 +141,35 @@ class GeneralInformation(models.Model):
     PRD_set = models.DecimalField(max_digits=10,
                                   decimal_places=2,
                                   default=1.0)
-    Service_severity = models.CharField(max_length=15,
-                       choices=IPRD_6_CHOICES,
-                       default='mild')
-    PRD_Discharge_Location = models.CharField(max_length=25,
-                             choices=IPRD_7_CHOICES,
-                             default='atmosphere')
-    Environment_Factor_Modifier = models.CharField(max_length=100,
-                            choices=IPRD_8_CHOICES,
-                            default=f'99.33 {degree_sign}C < T < 260 {degree_sign}C')
+    Service_severity = models.ForeignKey(ServiceSeverity,
+                            on_delete=models.CASCADE)
+    #Service_severity = models.CharField(max_length=15,
+    #                   choices=IPRD_6_CHOICES,
+    #                   default='mild')
+    PRD_Discharge_Location = models.ForeignKey(PRDDischargeLocation,
+                            on_delete=models.CASCADE)
+    #PRD_Discharge_Location = models.CharField(max_length=25,
+    #                         choices=IPRD_7_CHOICES,
+    #                         default='atmosphere')
+    Environment_Factor_Modifier = models.ForeignKey(EnvironmentFactorModifier,
+                             on_delete=models.CASCADE)
+    #Environment_Factor_Modifier = models.CharField(max_length=100,
+    #                        choices=IPRD_8_CHOICES,
+    #                        default=f'99.33 {degree_sign}C < T < 260 {degree_sign}C')
     Rupture_disk_is_installed_upstream_of_PRD = models.CharField(max_length=13,
                             choices=IPRD_9_CHOICES,
                             default='no')
-                            
+
     objects = GeneralInformationManager()
-    
-    
+
+
     class Meta:
         ordering = ['id',]
 
     def __str__(self):
         return f'{self.PRD_identification_number}'
-        
-        
+
+
     def serialize(self):
         data = {
             "id": self.id,
@@ -172,13 +180,13 @@ class GeneralInformation(models.Model):
         }
         data = json.dumps(data)
         return data
-        
-        
-        
-    
-class PrdInspection_TestHistoryQuerySet(models.QuerySet):         
+
+
+
+
+class PrdInspection_TestHistoryQuerySet(models.QuerySet):
     def serialize(self):
-        list_values = list(self.values("id", "Fixed_Equipment_Protected_by_PRD", 
+        list_values = list(self.values("id", "Fixed_Equipment_Protected_by_PRD",
                                        "Protected_Equipment_Demage_Status",
                                        "Maximum_Allow_able_Working_Pressure_of_Protected_Equipment",
                                        "Operating_Pressure_of_the_Protected_Equipment",
@@ -192,16 +200,18 @@ class PrdInspection_TestHistoryQuerySet(models.QuerySet):
 class PrdInspection_TestHistoryManager(models.Manager):
     def get_queryset(self):
         return PrdInspection_TestHistoryQuerySet(self.model, using=self._db)
-        
 
 
-class PrdInspection_TestHistory(models.Model):
+
+class ProtectedFixedEquipmentPipingData(models.Model):
     Fixed_Equipment_Protected_by_PRD = models.CharField(max_length=20,
                             choices=IPRD_18_CHOICES,
                             default='yes')
-    Protected_Equipment_Demage_Status = models.CharField(max_length=15,
-                            choices=IPRD_19_CHOICES,
-                            default='none')
+    Protected_Equipment_Demage_Status = models.ForeignKey(ProtectedEquipmentDemageStatus,
+                            on_delete=models.CASCADE)
+    #Protected_Equipment_Demage_Status = models.CharField(max_length=15,
+    #                        choices=IPRD_19_CHOICES,
+    #                        default='none')
     Maximum_Allow_able_Working_Pressure_of_Protected_Equipment = models.DecimalField(max_digits=10,
                             decimal_places=2,
                             default=1.0)
@@ -211,7 +221,7 @@ class PrdInspection_TestHistory(models.Model):
     management_system_factor = models.DecimalField(max_digits=10,
                             decimal_places=2,
                             default=1.0)
-    
+
     objects = PrdInspection_TestHistoryManager()
 
 
@@ -221,8 +231,8 @@ class PrdInspection_TestHistory(models.Model):
 
     def __str__(self):
         return f'{self.Fixed_Equipment_Protected_by_PRD}'
-        
-    
+
+
     def serialize(self):
         data = {
             "id": self.id,
@@ -239,9 +249,9 @@ class PrdInspection_TestHistory(models.Model):
 
 
 
-class ConsequencesOfFailureInputDataQuerySet(models.QuerySet):         
+class ConsequencesOfFailureInputDataQuerySet(models.QuerySet):
     def serialize(self):
-        list_values = list(self.values("id", "Multiple_PRDs_protecting_fixed_equipment", 
+        list_values = list(self.values("id", "Multiple_PRDs_protecting_fixed_equipment",
                                        "Orifice_area_of_the_PRD",
                                        "Total_installed_orifice_area_of_a_multiple_PDRs_installation"))
 
@@ -265,7 +275,7 @@ class ConsequencesOfFailureInputData(models.Model):
     Total_installed_orifice_area_of_a_multiple_PDRs_installation = models.DecimalField(max_digits=10,
                             decimal_places=2,
                             default=1.0)
-                            
+
     objects = ConsequencesOfFailureInputDataManager()
 
     class Meta:
@@ -274,8 +284,8 @@ class ConsequencesOfFailureInputData(models.Model):
 
     def __str__(self):
         return f'{self.Multiple_PRDs_protecting_fixed_equipment}'
-        
-    
+
+
     def serialize(self):
         data = {
             "id": self.id,
@@ -289,9 +299,9 @@ class ConsequencesOfFailureInputData(models.Model):
 
 
 
-class Consequences0fFailureOfLeakageQuerySet(models.QuerySet):         
+class Consequences0fFailureOfLeakageQuerySet(models.QuerySet):
     def serialize(self):
-        list_values = list(self.values("id", "Rated_Capacity_of_PRD", 
+        list_values = list(self.values("id", "Rated_Capacity_of_PRD",
                                        "PRD_Inlet_Size",
                                        "Cost_of_the_fluid",
                                        "Environmental_clean_up_costs_due_to_a_PRD_leakage",
@@ -335,17 +345,17 @@ class Consequences0fFailureOfLeakage(models.Model):
     Days_required_to_shutdown_a_unit_to_repair_a_leakage = models.DecimalField(max_digits=10,
                             decimal_places=3,
                             default=1.0)
-                            
+
     objects = Consequences0fFailureOfLeakageManager()
-                            
+
     def __str__(self):
         return f'{self.Rated_Capacity_of_PRD}'
-        
-        
+
+
     class Meta:
         ordering = ['id']
-        
-        
+
+
     def serialize(self):
         data = {
             "id": self.id,
@@ -362,9 +372,9 @@ class Consequences0fFailureOfLeakage(models.Model):
 
 
 
-class Prd_InspectionHistoryQuerySet(models.QuerySet):         
+class Prd_InspectionHistoryQuerySet(models.QuerySet):
     def serialize(self):
-        list_values = list(self.values("id", "RBI_inspection_test_date", 
+        list_values = list(self.values("id", "RBI_inspection_test_date",
                                        "PRD_pop_test_results",
                                        "PRD_Leakage_results",
                                        "PRD_Inspection_Effectiveness",
@@ -388,26 +398,28 @@ class Prd_InspectionHistory(models.Model):
     PRD_Leakage_results = models.CharField(max_length=15,
                             choices=IPRD_12_CHOICES,
                             default='pass')
-    PRD_Inspection_Effectiveness = models.CharField(max_length=30,
-                            choices=IPRD_13_CHOICES,
-                            default='highly_effective')
+    PRD_Inspection_Effectiveness = models.ForeignKey(PRDInspectionEffectiveness,
+                            on_delete=models.CASCADE)
+    #PRD_Inspection_Effectiveness = models.CharField(max_length=30,
+    #                        choices=IPRD_13_CHOICES,
+    #                        default='highly_effective')
     PRD_Overhauled_during_the_inspection = models.CharField(max_length=14,
                             choices=IPRD_14_CHOICES,
                             default='yes')
     PRD_replace_with_new_PRD_in_lieu_of_overhaul = models.CharField(max_length=14,
                             choices=IPRD_15_CHOICES,
                             default='no')
-                            
+
     objects = Prd_InspectionHistorygeManager()
-    
+
     def __str__(self):
         return f'{self.RBI_inspection_test_date}'
-        
-    
+
+
     class Meta:
         ordering = ['id']
-        
-    
+
+
     def serialize(self):
         data = {
             "id": self.id,
@@ -424,9 +436,9 @@ class Prd_InspectionHistory(models.Model):
 
 
 
-class ApplicableOverpressureDemandCaseQuerySet(models.QuerySet):         
+class ApplicableOverpressureDemandCaseQuerySet(models.QuerySet):
     def serialize(self):
-        list_values = list(self.values("id", "Over_pressure_demand_case", 
+        list_values = list(self.values("id", "Over_pressure_demand_case",
                                        "Overpressure_associated_with_the_overpressure",
                                        "PRD_COF_to_open_associated_with_jth_overpressure"))
 
@@ -442,26 +454,28 @@ class ApplicableOverpressureDemandCaseManager(models.Manager):
 
 
 class ApplicableOverpressureDemandCase(models.Model):
-    Over_pressure_demand_case = models.CharField(max_length=100,
-                            choices=IPRD_16_CHOICES,
-                            default='fire')
+    Over_pressure_demand_case = models.ForeignKey(OverPressureDemandCase,
+                            on_delete=models.CASCADE)
+    #Over_pressure_demand_case = models.CharField(max_length=100,
+    #                        choices=IPRD_16_CHOICES,
+    #                        default='fire')
     Overpressure_associated_with_the_overpressure = models.DecimalField(max_digits=10,
                             decimal_places=2,
                             default=1.0)
     PRD_COF_to_open_associated_with_jth_overpressure = models.DecimalField(max_digits=10,
                             decimal_places=2,
                             default=1.0)
-    
+
     objects = ApplicableOverpressureDemandCaseManager()
-    
+
     def __str__(self):
         return f'{self.Over_pressure_demand_case}'
-        
-        
+
+
     class Meta:
         ordering = ['id']
-        
-        
+
+
     def serialize(self):
         data = {
             "id": self.id,
@@ -471,4 +485,3 @@ class ApplicableOverpressureDemandCase(models.Model):
         }
         data = json.dumps(data)
         return data
-        
