@@ -83,39 +83,16 @@ class OverPressureDemandCaseSerializer(
 
 
 
-
-
-
-
-
-class GeneralInformationSerializer(serializers.ModelSerializer):
-    Type_of_PRD = TypeOfPRDSerializer()
-    Service_severity = ServiceSeveritySerializer()
-    PRD_Discharge_Location = PRDDischargeLocationSerializer()
-    Environment_Factor_Modifier = EnvironmentFactorModifierSerializer()
-
-    class Meta:
-        model = GeneralInformation
-        fields = ['id', 'PRD_identification_number',
-                  'PRD_function', 'Installation_of_PRD',
-                  'RBI_assessment_date', 'Type_of_PRD',
-                  'PRD_Containing_Soft_Seats', 'PRD_set',
-                  'Service_severity', 'PRD_Discharge_Location',
-                  'Environment_Factor_Modifier', 'Rupture_disk_is_installed_upstream_of_PRD']
-
-
 class ProtectedFixedEquipmentSerializer(serializers.ModelSerializer):
     Protected_Equipment_Demage_Status = ProtectedEquipmentDemageStatusSerializer()
 
     class Meta:
         model = ProtectedFixedEquipmentPipingData
-        fields = ['id', 'Fixed_Equipment_Protected_by_PRD',
-                  'Maximum_Allow_able_Working_Pressure_of_Protected_Equipment',
-                  'Operating_Pressure_of_the_Protected_Equipment',
-                  'management_system_factor',
-                  'Protected_Equipment_Demage_Status']
-
-
+        fields = '__all__' #['id', 'Fixed_Equipment_Protected_by_PRD',
+                  #'Maximum_Allow_able_Working_Pressure_of_Protected_Equipment',
+                  #'Operating_Pressure_of_the_Protected_Equipment',
+                  #'management_system_factor',
+                  #'Protected_Equipment_Demage_Status']
 
 
 class ConsequencesOfFailureInputDataSerializer(serializers.ModelSerializer):
@@ -151,6 +128,43 @@ class ApplicableOverpressureDemandCaseSerializer(serializers.ModelSerializer):
         fields = ['id', 'Overpressure_associated_with_the_overpressure',
                   'PRD_COF_to_open_associated_with_jth_overpressure',
                   'Over_pressure_demand_case']
+                  
+   
+
+def get_Protected_Equipment(model, serializer, id=None):
+    items = model.objects.all()
+    if id is not None:
+        items = items.filter(id=id).first()
+        if items is None:
+            return {}
+        return serializer(items).data
+    return serializer(items, many=True).data
+    
+
+class GeneralInformationSerializer(serializers.ModelSerializer):
+    Type_of_PRD = TypeOfPRDSerializer()
+    Service_severity = ServiceSeveritySerializer()
+    PRD_Discharge_Location = PRDDischargeLocationSerializer()
+    Environment_Factor_Modifier = EnvironmentFactorModifierSerializer()
+
+    class Meta:
+        model = GeneralInformation
+        fields = '__all__'
+                  
+        
+    def to_representation(self, instance):
+        id = None
+        try:
+            id = instance.id
+        except:
+            id = None
+        data = super().to_representation(instance)
+        data['ProtectedFixedEquipmentPipingData'] = get_Protected_Equipment(ProtectedFixedEquipmentPipingData, ProtectedFixedEquipmentSerializer, id=id)  #ProtectedFixedEquipmentSerializer(ProtectedFixedEquipmentPipingData.objects.all()).data
+        data['ConsequencesOfFailureInputData'] = get_Protected_Equipment(ConsequencesOfFailureInputData, ConsequencesOfFailureInputDataSerializer, id=id)
+        data['Consequences0fFailureOfLeakage'] = get_Protected_Equipment(Consequences0fFailureOfLeakage, ConsequencesOfFailureOfLeakageSerializer, id=id)
+        data['Prd_InspectionHistory'] = get_Protected_Equipment(Prd_InspectionHistory, Prd_InspectionHistorySerializer, id=id)
+        data['ApplicableOverpressureDemandCase'] = get_Protected_Equipment(ApplicableOverpressureDemandCase, ApplicableOverpressureDemandCaseSerializer, id=id)
+        return data
 
 
 

@@ -1,4 +1,5 @@
 from django.urls import path, include
+from rest_framework.routers import DefaultRouter
 
 from .views import (
     TypeOfPRDAPIView,
@@ -26,7 +27,7 @@ from .views import (
 
 from .views_2 import (
     GeneralInformationAPIView as GenInfo,
-    ProtectedFixedEquipmentAPIView as ProtectFiex,
+    ProtectedFixedEquipmentAPIView as ProtectFixed,
     Prd_InspectionHistoryAPIView as Prd_Inspe,
 
     all_models as joined_models,
@@ -45,15 +46,22 @@ from .serializers_2 import (
 app_name = 'status_api'
 
 
+router = DefaultRouter()
+router.register('prd', GenInfo, basename='GeneralInformationAPIView')
+
 urlpatterns = [
-    path('all/', AllModels.as_view()),
-    path('all/<int:id>/', AllModelsById.as_view()),
+    path('', include(router.urls)),
+    #path('gen/', GenInfo.as_view()),
+    #path('protected/', ProtectFixed.as_view()),
+
+    #path('all/', AllModels.as_view()),
+    #path('all/<int:id>/', AllModelsById.as_view()),
 
     #path('prd/', joined_models),
     #path('prd/<int:id>/', by_id),
     
-    path('prd/<int:id>/', test_by_id),
-    path('prd/', test_all),
+    #path('prd/<int:id>/', test_by_id),
+    #path('prd/', test_all),
 
 
     path('type-of-prd/', TypeOfPRDAPIView.as_view()),

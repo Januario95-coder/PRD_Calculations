@@ -95,95 +95,6 @@ class SelectField(models.Model):
 
 
 
-
-
-class GeneralInformationQuerySet(models.QuerySet):
-    def serialize(self):
-        list_values = list(self.values("id", "PRD_identification_number",
-                                       "PRD_function",
-                                       "Installation_of_PRD",
-                                       "RBI_assessment_date",
-                                       "Type_of_PRD",
-                                       "PRD_Containing_Soft_Seats",
-                                       "PRD_set",
-                                       "Service_severity",
-                                       "PRD_Discharge_Location",
-                                       "Environment_Factor_Modifier",
-                                       "Rupture_disk_is_installed_upstream_of_PRD"))
-
-        #list_values[0]['model'] = self.model._meta.model_nam
-        #self.model._meta.model_nam
-        return list_values
-
-
-
-class GeneralInformationManager(models.Manager):
-    def get_queryset(self):
-        return GeneralInformationQuerySet(self.model, using=self._db)
-
-
-
-class GeneralInformation(models.Model):
-    PRD_identification_number = models.CharField(max_length=10)
-    PRD_function = models.CharField(max_length=150)
-    Installation_of_PRD = models.DateField(default=datetime.now)
-    RBI_assessment_date = models.DateField(default=datetime.now)
-    Type_of_PRD = models.ForeignKey(TypeOfPRD,
-                            on_delete=models.CASCADE)
-
-    #Type_of_PRD = models.CharField(max_length=25,
-    #                               choices=IPRD_3_CHOICES,
-    #                               default='convention_spring_loaded')
-    PRD_Containing_Soft_Seats = models.CharField(
-                max_length=15,
-                choices=IPRD_4_CHOICES,
-                default='no')
-    PRD_set = models.DecimalField(max_digits=10,
-                                  decimal_places=2,
-                                  default=1.0)
-    Service_severity = models.ForeignKey(ServiceSeverity,
-                            on_delete=models.CASCADE)
-    #Service_severity = models.CharField(max_length=15,
-    #                   choices=IPRD_6_CHOICES,
-    #                   default='mild')
-    PRD_Discharge_Location = models.ForeignKey(PRDDischargeLocation,
-                            on_delete=models.CASCADE)
-    #PRD_Discharge_Location = models.CharField(max_length=25,
-    #                         choices=IPRD_7_CHOICES,
-    #                         default='atmosphere')
-    Environment_Factor_Modifier = models.ForeignKey(EnvironmentFactorModifier,
-                             on_delete=models.CASCADE)
-    #Environment_Factor_Modifier = models.CharField(max_length=100,
-    #                        choices=IPRD_8_CHOICES,
-    #                        default=f'99.33 {degree_sign}C < T < 260 {degree_sign}C')
-    Rupture_disk_is_installed_upstream_of_PRD = models.CharField(max_length=13,
-                            choices=IPRD_9_CHOICES,
-                            default='no')
-
-    objects = GeneralInformationManager()
-
-
-    class Meta:
-        ordering = ['id',]
-
-    def __str__(self):
-        return f'{self.PRD_identification_number}'
-
-
-    def serialize(self):
-        data = {
-            "id": self.id,
-            "PRD_identification_number": self.PRD_identification_number,
-            "PRD_function": self.PRD_function,
-            "Installation_of_PRD": self.Installation_of_PRD,
-            "RBI_assessment_date": self.RBI_assessment_date
-        }
-        data = json.dumps(data)
-        return data
-
-
-
-
 class PrdInspection_TestHistoryQuerySet(models.QuerySet):
     def serialize(self):
         list_values = list(self.values("id", "Fixed_Equipment_Protected_by_PRD",
@@ -485,3 +396,106 @@ class ApplicableOverpressureDemandCase(models.Model):
         }
         data = json.dumps(data)
         return data
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+class GeneralInformationQuerySet(models.QuerySet):
+    def serialize(self):
+        list_values = list(self.values("id", "PRD_identification_number",
+                                       "PRD_function",
+                                       "Installation_of_PRD",
+                                       "RBI_assessment_date",
+                                       "Type_of_PRD",
+                                       "PRD_Containing_Soft_Seats",
+                                       "PRD_set",
+                                       "Service_severity",
+                                       "PRD_Discharge_Location",
+                                       "Environment_Factor_Modifier",
+                                       "Rupture_disk_is_installed_upstream_of_PRD"))
+
+        #list_values[0]['model'] = self.model._meta.model_nam
+        #self.model._meta.model_nam
+        return list_values
+
+
+
+class GeneralInformationManager(models.Manager):
+    def get_queryset(self):
+        return GeneralInformationQuerySet(self.model, using=self._db)
+
+
+
+class GeneralInformation(models.Model):
+    PRD_identification_number = models.CharField(max_length=10)
+    PRD_function = models.CharField(max_length=150)
+    Installation_of_PRD = models.DateField(default=datetime.now)
+    RBI_assessment_date = models.DateField(default=datetime.now)
+    Type_of_PRD = models.ForeignKey(TypeOfPRD,
+                            on_delete=models.CASCADE,
+                            related_name='gen_info')
+
+    #Type_of_PRD = models.CharField(max_length=25,
+    #                               choices=IPRD_3_CHOICES,
+    #                               default='convention_spring_loaded')
+    PRD_Containing_Soft_Seats = models.CharField(
+                max_length=15,
+                choices=IPRD_4_CHOICES,
+                default='no')
+    PRD_set = models.DecimalField(max_digits=10,
+                                  decimal_places=2,
+                                  default=1.0)
+    Service_severity = models.ForeignKey(ServiceSeverity,
+                            on_delete=models.CASCADE)
+    #Service_severity = models.CharField(max_length=15,
+    #                   choices=IPRD_6_CHOICES,
+    #                   default='mild')
+    PRD_Discharge_Location = models.ForeignKey(PRDDischargeLocation,
+                            on_delete=models.CASCADE)
+    #PRD_Discharge_Location = models.CharField(max_length=25,
+    #                         choices=IPRD_7_CHOICES,
+    #                         default='atmosphere')
+    Environment_Factor_Modifier = models.ForeignKey(EnvironmentFactorModifier,
+                             on_delete=models.CASCADE)
+    #Environment_Factor_Modifier = models.CharField(max_length=100,
+    #                        choices=IPRD_8_CHOICES,
+    #                        default=f'99.33 {degree_sign}C < T < 260 {degree_sign}C')
+    Rupture_disk_is_installed_upstream_of_PRD = models.CharField(max_length=13,
+                            choices=IPRD_9_CHOICES,
+                            default='no')
+    #ProtectedFixedEquipmentPipingData = models.ForeignKey(ProtectedFixedEquipmentPipingData, 
+    #                                                      on_delete=models.CASCADE)
+
+    objects = GeneralInformationManager()
+
+
+    class Meta:
+        ordering = ['id',]
+
+    def __str__(self):
+        return f'{self.PRD_identification_number}'
+
+
+    def serialize(self):
+        data = {
+            "id": self.id,
+            "PRD_identification_number": self.PRD_identification_number,
+            "PRD_function": self.PRD_function,
+            "Installation_of_PRD": self.Installation_of_PRD,
+            "RBI_assessment_date": self.RBI_assessment_date
+        }
+        data = json.dumps(data)
+        return data
+        

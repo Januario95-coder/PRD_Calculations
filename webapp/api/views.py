@@ -32,6 +32,11 @@ from .serializers import (
     Prd_InspectionHistorySerializer,
     ApplicableOverpressureDemandCaseSerializer,
 )
+
+from .serializers_2 import (
+    GeneralInformationSerializer as GenInfoSerializer,
+)
+
 from webapp.models import (
     TypeOfPRD,
     ServiceSeverity,
@@ -114,56 +119,19 @@ class OverPressureDemandCaseAPIView(generics.ListAPIView):
 
 
 
-class GeneralInformationAPIView(
-    mixins.CreateModelMixin,
-    generics.ListAPIView):
-    permission_classes = [permissions.IsAuthenticatedOrReadOnly] # IsAuthenticated
-    serializer_class = GeneralInformationSerializer
-    passed_id = None
-
-    def get_queryset(self):
-        request = self.request
-        qs = GeneralInformation.objects.all()
-        query = request.GET.get('q')
-        if query is not None:
-            qs = qs.filter(content__icontains=query)
-        return qs
-
-    def post(self, request, *args, **kwargs):
-        return self.create(request, *args, **kwargs)
-
-    def perform_create(self, serializer):
-        serializer.save(user=self.request.user)
+class GeneralInformationAPIView(generics.ListCreateAPIView):
+    permission_classes = [permissions.AllowAny] # IsAuthenticated
+    serializer_class = GenInfoSerializer
+    queryset = GeneralInformation.objects.all()
 
 
-
-class ProtectedFixedEquipmentAPIView(
-    mixins.CreateModelMixin,
-    # mixins.RetrieveModelMixin,
-    # mixins.UpdateModelMixin,
-    # mixins.DestroyModelMixin,
-    generics.ListAPIView):
-    permission_classes = [permissions.IsAuthenticatedOrReadOnly] # IsAuthenticated
-    # authentication_classes = [SessionAuthentication]
-    # Override queryset
-    # queryset = GeneralInformation.objects.all()
+class ProtectedFixedEquipmentAPIView(generics.ListCreateAPIView):
+    permission_classes = [permissions.AllowAny] # IsAuthenticated
+    #authentication_classes = [SessionAuthentication]
+    queryset = GeneralInformation.objects.all()
     serializer_class = ProtectedFixedEquipmentSerializer
-    passed_id = None
+    
 
-    def get_queryset(self):
-        request = self.request
-        qs = ProtectedFixedEquipmentPipingData.objects.all()
-        # print(request.user)
-        query = request.GET.get('q')
-        if query is not None:
-            qs = qs.filter(content__icontains=query)
-        return qs
-
-    def post(self, request, *args, **kwargs):
-        return self.create(request, *args, **kwargs)
-
-    def perform_create(self, serializer):
-        serializer.save(user=self.request.user)
 
 
 class ConsequencesOfFailureInputDataAPIView(
