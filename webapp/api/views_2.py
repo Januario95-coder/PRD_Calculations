@@ -6,13 +6,17 @@ from rest_framework import (
 )
 from rest_framework import status
 from rest_framework.decorators import api_view
-from django.core.serializers import serialize
-from django.shortcuts import get_object_or_404
-from django.http import JsonResponse
 from rest_framework.authentication import SessionAuthentication
+from django.core.serializers import serialize
+from django.shortcuts import get_object_or_404, render
+from django.http import JsonResponse
+from django.views.decorators.http import require_POST
+from django.views.decorators.csrf import csrf_exempt
+
 
 import json
 import requests
+import datetime
 
 
 from .serializers_2 import (
@@ -53,6 +57,8 @@ from webapp.models import (
     ApplicableOverpressureDemandCase
 )
 
+from .forms import GenInfoForm
+
 import json
 
 Type_of_PRD = {
@@ -71,6 +77,116 @@ def is_json(json_data):
     except ValueError:
         is_valid = False
     return is_valid
+    
+   
+   
+@require_POST
+@csrf_exempt
+def gen_data(request):
+    data = json.loads(request.body)
+    print('\nSubmitted data:')
+    print(data)
+    print()
+    form = GenInfoForm(data)
+    print(f'Form is valid: {form.is_valid()}')
+    year, month, day = data['Installation_of_PRD'].split('-')
+    data['Installation_of_PRD'] = datetime.date(int(year), int(month), int(day))
+    message = ''
+    
+    if form.is_valid():
+        print('Cleaned data:')
+        print(form.cleaned_data)
+        print()
+        id_number = data['PRD_identification_number']
+        obj = GeneralInformation.objects.filter(PRD_identification_number=id_number)
+        if obj.exists():
+            obj = obj.first()
+            obj.PRD_identification_number = id_number
+            obj.PRD_function = data['PRD_function']
+            obj.Installation_of_PRD = data['Installation_of_PRD']
+            obj.RBI_assessment_date = data['RBI_assessment_date']
+            obj.Type_of_PRD = TypeOfPRD.objects.get(name=data['Type_of_PRD'])
+            obj.PRD_Containing_Soft_Seats = data['PRD_Containing_Soft_Seats']
+            obj.PRD_set = data['PRD_set']
+            obj.Service_severity = ServiceSeverity.objects.get(name=data['Service_severity'])
+            obj.PRD_Discharge_Location = PRDDischargeLocation.objects.get(name=data['PRD_Discharge_Location'])
+            obj.Environment_Factor_Modifier = EnvironmentFactorModifier.objects.get(name=data['Environment_Factor_Modifier'])
+            obj.Rupture_disk_is_installed_upstream_of_PRD = data['Rupture_disk_is_installed_upstream_of_PRD']
+            obj.save()
+            message = 'Object updated successfully'
+        else:
+            obj = GeneralInformation.objects.create(
+                PRD_identification_number = id_number,
+                PRD_function = data['PRD_function'],
+                Installation_of_PRD = data['Installation_of_PRD'],
+                RBI_assessment_date = data['RBI_assessment_date'],
+                Type_of_PRD = TypeOfPRD.objects.get(name=data['Type_of_PRD']),
+                PRD_Containing_Soft_Seats = data['PRD_Containing_Soft_Seats'],
+                PRD_set = data['PRD_set'],
+                Service_severity = ServiceSeverity.objects.get(name=data['Service_severity']),
+                PRD_Discharge_Location = PRDDischargeLocation.objects.get(name=data['PRD_Discharge_Location']),
+                Environment_Factor_Modifier = EnvironmentFactorModifier.objects.get(name=data['Environment_Factor_Modifier']),
+                Rupture_disk_is_installed_upstream_of_PRD = data['Rupture_disk_is_installed_upstream_of_PRD']
+            )
+            obj.save()
+            message = 'Object created successfully'
+    else:
+        message = 'form is not valid'
+    return JsonResponse({
+        'message': message
+    })
+    
+    
+def test_api(request):
+    if request.method == 'POST':
+        form = GenInfoForm(request.POST)
+        if form.is_valid():
+            data = form.cleaned_data
+            print(form.is_valid())
+            print(data)
+            """
+            id_number = data['PRD_identification_number']
+            obj = GeneralInformation.objects.filter(PRD_identification_number=id_number)
+            if obj.exists():
+                obj = obj.first()
+                obj.PRD_identification_number = id_number
+                obj.PRD_function = data['PRD_function']
+                obj.Installation_of_PRD = data['Installation_of_PRD']
+                obj.RBI_assessment_date = data['RBI_assessment_date']
+                obj.Type_of_PRD = TypeOfPRD.objects.get(name=data['Type_of_PRD'])
+                obj.PRD_Containing_Soft_Seats = data['PRD_Containing_Soft_Seats']
+                obj.PRD_set = data['PRD_set']
+                obj.Service_severity = ServiceSeverity.objects.get(name=data['Service_severity'])
+                obj.PRD_Discharge_Location = PRDDischargeLocation.objects.get(name=data['PRD_Discharge_Location'])
+                obj.Environment_Factor_Modifier = EnvironmentFactorModifier.objects.get(name=data['Environment_Factor_Modifier'])
+                obj.Rupture_disk_is_installed_upstream_of_PRD = data['Rupture_disk_is_installed_upstream_of_PRD']
+                obj.save()
+            else:
+                obj = GeneralInformation.objects.create(
+                    PRD_identification_number = id_number,
+                    PRD_function = data['PRD_function'],
+                    Installation_of_PRD = data['Installation_of_PRD'],
+                    RBI_assessment_date = data['RBI_assessment_date'],
+                    Type_of_PRD = TypeOfPRD.objects.get(name=data['Type_of_PRD']),
+                    PRD_Containing_Soft_Seats = data['PRD_Containing_Soft_Seats'],
+                    PRD_set = data['PRD_set'],
+                    Service_severity = ServiceSeverity.objects.get(name=data['Service_severity']),
+                    PRD_Discharge_Location = PRDDischargeLocation.objects.get(name=data['PRD_Discharge_Location']),
+                    Environment_Factor_Modifier = EnvironmentFactorModifier.objects.get(name=data['Environment_Factor_Modifier']),
+                    Rupture_disk_is_installed_upstream_of_PRD = data['Rupture_disk_is_installed_upstream_of_PRD']
+                )
+                obj.save()
+                """
+            #print(id_number)
+            #RESDF
+    else:
+        form = GenInfoForm()
+    return render(request,
+                  'webapp/test.html',
+                  {'form': form})
+
+
+
 
 
 

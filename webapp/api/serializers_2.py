@@ -149,7 +149,12 @@ class GeneralInformationSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = GeneralInformation
-        fields = '__all__'
+        fields = ['id', 'PRD_identification_number', 'PRD_function',
+                  'Installation_of_PRD', 'RBI_assessment_date',
+                  'Type_of_PRD', 'PRD_Containing_Soft_Seats',
+                  'PRD_set', 'Service_severity',
+                  'PRD_Discharge_Location', 'Environment_Factor_Modifier',
+                  'Rupture_disk_is_installed_upstream_of_PRD']
                   
         
     def to_representation(self, instance):
@@ -159,11 +164,11 @@ class GeneralInformationSerializer(serializers.ModelSerializer):
         except:
             id = None
         data = super().to_representation(instance)
-        data['ProtectedFixedEquipmentPipingData'] = get_Protected_Equipment(ProtectedFixedEquipmentPipingData, ProtectedFixedEquipmentSerializer, id=id)  #ProtectedFixedEquipmentSerializer(ProtectedFixedEquipmentPipingData.objects.all()).data
-        data['ConsequencesOfFailureInputData'] = get_Protected_Equipment(ConsequencesOfFailureInputData, ConsequencesOfFailureInputDataSerializer, id=id)
-        data['Consequences0fFailureOfLeakage'] = get_Protected_Equipment(Consequences0fFailureOfLeakage, ConsequencesOfFailureOfLeakageSerializer, id=id)
-        data['Prd_InspectionHistory'] = get_Protected_Equipment(Prd_InspectionHistory, Prd_InspectionHistorySerializer, id=id)
-        data['ApplicableOverpressureDemandCase'] = get_Protected_Equipment(ApplicableOverpressureDemandCase, ApplicableOverpressureDemandCaseSerializer, id=id)
+        #data['ProtectedFixedEquipmentPipingData'] = get_Protected_Equipment(ProtectedFixedEquipmentPipingData, ProtectedFixedEquipmentSerializer, id=id)  #ProtectedFixedEquipmentSerializer(ProtectedFixedEquipmentPipingData.objects.all()).data
+        #data['ConsequencesOfFailureInputData'] = get_Protected_Equipment(ConsequencesOfFailureInputData, ConsequencesOfFailureInputDataSerializer, id=id)
+        #data['Consequences0fFailureOfLeakage'] = get_Protected_Equipment(Consequences0fFailureOfLeakage, ConsequencesOfFailureOfLeakageSerializer, id=id)
+        #data['Prd_InspectionHistory'] = get_Protected_Equipment(Prd_InspectionHistory, Prd_InspectionHistorySerializer, id=id)
+        #data['ApplicableOverpressureDemandCase'] = get_Protected_Equipment(ApplicableOverpressureDemandCase, ApplicableOverpressureDemandCaseSerializer, id=id)
         return data
 
 

@@ -34,6 +34,9 @@ from .views_2 import (
     all_models_by_id as by_id,
     test_by_id,
     test_all,
+    
+    test_api,
+    gen_data,
 )
 
 from .serializers_2 import (
@@ -51,6 +54,9 @@ router.register('prd', GenInfo, basename='GeneralInformationAPIView')
 
 urlpatterns = [
     path('', include(router.urls)),
+    path('test/', test_api, name='test_api'),
+    path('submit/', gen_data, name='submit_data'),
+    
     #path('gen/', GenInfo.as_view()),
     #path('protected/', ProtectFixed.as_view()),
 

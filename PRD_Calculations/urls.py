@@ -9,7 +9,7 @@ from rest_framework_simplejwt.views import (
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    #path('prd/', include('webapp.urls', namespace='webapp')),
+    path('prd/', include('webapp.urls', namespace='webapp')),
     path('api/', include('webapp.api.urls', namespace='status_api')),
     path('api-auth/', include('rest_framework.urls')),
     path('api/token/', TokenObtainPairView.as_view(),
