@@ -66,7 +66,7 @@ class PRDInspectionEffectiveness(models.Model):
 
 
 class OverPressureDemandCase(models.Model):
-    name = models.CharField(max_length=100,
+    name = models.CharField(max_length=200,
                             choices=IPRD_16_CHOICES,
                             default='fire')
 
