@@ -19,11 +19,11 @@ class GenInfoForm(forms.Form):
             'value': 'ARG123'
         })
     )
-    Installation_of_PRD = forms.CharField(
-        widget=DateInput
+    Installation_of_PRD = forms.DateTimeField(
+        #widget=DateInput
     )
-    RBI_assessment_date = forms.CharField(
-        widget=DateInput
+    RBI_assessment_date = forms.DateTimeField(
+        #widget=DateInput
     )
     Type_of_PRD = forms.ChoiceField(choices=IPRD_3_CHOICES)
     PRD_Containing_Soft_Seats = forms.ChoiceField(choices=IPRD_4_CHOICES)
