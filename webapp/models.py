@@ -441,8 +441,8 @@ class GeneralInformationManager(models.Manager):
 class GeneralInformation(models.Model):
     PRD_identification_number = models.CharField(max_length=10)
     PRD_function = models.CharField(max_length=150)
-    Installation_of_PRD = models.DateField(default=datetime.now)
-    RBI_assessment_date = models.DateField(default=datetime.now)
+    Installation_of_PRD = models.DateTimeField(default=datetime.now)
+    RBI_assessment_date = models.DateTimeField(default=datetime.now)
     Type_of_PRD = models.ForeignKey(TypeOfPRD,
                             on_delete=models.CASCADE,
                             related_name='gen_info')

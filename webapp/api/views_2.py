@@ -89,16 +89,16 @@ def gen_data(request):
     print()
     form = GenInfoForm(data)
     print(f'Form is valid: {form.is_valid()}')
-    year, month, day = data['Installation_of_PRD'].split('-')
-    data['Installation_of_PRD'] = datetime.date(int(year), int(month), int(day))
+    #year, month, day = data['Installation_of_PRD'].split('-')
+    #data['Installation_of_PRD'] = datetime.date(int(year), int(month), int(day))
     message = ''
     
     if form.is_valid():
         print('Cleaned data:')
         print(form.cleaned_data)
         print()
-        id_number = data['PRD_identification_number']
-        obj = GeneralInformation.objects.filter(PRD_identification_number=id_number)
+        id_number = data['id']
+        obj = GeneralInformation.objects.filter(id=id)
         if obj.exists():
             obj = obj.first()
             obj.PRD_identification_number = id_number

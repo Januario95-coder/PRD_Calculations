@@ -8,6 +8,7 @@ class DateInput(forms.DateInput):
 
 
 class GenInfoForm(forms.Form):
+    id = forms.IntegerField()
     PRD_identification_number = forms.CharField(
         widget=forms.TextInput(attrs={
             'value': 'ACD1234'
@@ -18,7 +19,7 @@ class GenInfoForm(forms.Form):
             'value': 'ARG123'
         })
     )
-    Installation_of_PRD = forms.DateField(
+    Installation_of_PRD = forms.CharField(
         widget=DateInput
     )
     RBI_assessment_date = forms.CharField(
