@@ -2,8 +2,8 @@ from django import forms
 from webapp.IPRD_INPUT_CHOICES import *
 
 
-class DateInput(forms.DateInput):
-    format_key = '%Y-%m-%d'
+class DateInput(forms.DateTimeInput):
+    format_key = '%Y-%m-%dT%S:%M:%S'
     input_type = 'date'
 
 
@@ -19,12 +19,12 @@ class GenInfoForm(forms.Form):
             'value': 'ARG123'
         })
     )
-    Installation_of_PRD = forms.DateTimeField(
-        #widget=DateInput
-    )
-    RBI_assessment_date = forms.DateTimeField(
-        #widget=DateInput
-    )
+    # Installation_of_PRD = forms.DateTimeField(
+        # widget=DateInput()
+    # )
+    # RBI_assessment_date = forms.DateTimeField(
+        # widget=DateInput()
+    # )
     Type_of_PRD = forms.ChoiceField(choices=IPRD_3_CHOICES)
     PRD_Containing_Soft_Seats = forms.ChoiceField(choices=IPRD_4_CHOICES)
     PRD_set = forms.CharField()

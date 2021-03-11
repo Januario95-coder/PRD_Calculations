@@ -51,7 +51,7 @@ from webapp.models import (
     GeneralInformation,
     ProtectedFixedEquipmentPipingData,
     ConsequencesOfFailureInputData,
-    Consequences0fFailureOfLeakage,
+    ConsequencesOfFailureInputData,
     Prd_InspectionHistory,
     ApplicableOverpressureDemandCase
 )
@@ -179,7 +179,7 @@ class ConsequencesOfFailureOfLeakageAPIView(
 
     def get_queryset(self):
         request = self.request
-        qs = Consequences0fFailureOfLeakage.objects.all()
+        qs = ConsequencesOfFailureInputData.objects.all()
         # print(request.user)
         query = request.GET.get('q')
         if query is not None:

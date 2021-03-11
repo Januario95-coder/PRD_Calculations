@@ -15,7 +15,7 @@ from webapp.models import (
     GeneralInformation,
     ProtectedFixedEquipmentPipingData,
     ConsequencesOfFailureInputData,
-    Consequences0fFailureOfLeakage,
+    ConsequencesOfFailureOfLeakage,
     Prd_InspectionHistory,
     ApplicableOverpressureDemandCase
 )
@@ -101,7 +101,7 @@ class ConsequencesOfFailureInputDataSerializer(serializers.ModelSerializer):
 
 class ConsequencesOfFailureOfLeakageSerializer(serializers.ModelSerializer):
     class Meta:
-        model = Consequences0fFailureOfLeakage
+        model = ConsequencesOfFailureOfLeakage
         fields = '__all__'
 
 

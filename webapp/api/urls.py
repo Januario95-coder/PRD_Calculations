@@ -37,6 +37,10 @@ from .views_2 import (
     
     test_api,
     gen_data,
+    
+    ProjectRegistrationListView,
+    ProjectRegistrationCreationView,
+    ProjectRegistrationView,
 )
 
 from .serializers_2 import (
@@ -51,9 +55,13 @@ app_name = 'status_api'
 
 router = DefaultRouter()
 router.register('prd', GenInfo, basename='GeneralInformationAPIView')
+router.register('projects', ProjectRegistrationView, basename='ProjectRegistration')
 
 urlpatterns = [
     path('', include(router.urls)),
+    path('project/', ProjectRegistrationListView.as_view()),
+    path('project/<int:pk>/', ProjectRegistrationCreationView.as_view()),
+    
     path('test/', test_api, name='test_api'),
     path('submit/', gen_data, name='submit_data'),
     

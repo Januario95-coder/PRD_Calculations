@@ -2,7 +2,7 @@ from .models import (
     GeneralInformation,
     ProtectedFixedEquipmentPipingData,
     ConsequencesOfFailureInputData,
-    Consequences0fFailureOfLeakage,
+    ConsequencesOfFailureOfLeakage,
     ApplicableOverpressureDemandCase,
     Prd_InspectionHistory
 )
@@ -62,9 +62,9 @@ class LoginForm(forms.Form):
 
 
 
-class DateInput(forms.DateInput):
-    format_key = '%Y-%m-%d'
-    input_type = 'date'
+class DateInput(forms.DateTimeInput):
+    format_key = '%Y-%m-%dT%H:%M:%S'
+    input_type = 'datetime'
 
 
 
@@ -157,7 +157,7 @@ class Consequences0fFailureOfLeakageForm(forms.ModelForm):
         self.fields['Days_required_to_shutdown_a_unit_to_repair_a_leakage'].required = False
 
     class Meta:
-        model = Consequences0fFailureOfLeakage
+        model = ConsequencesOfFailureOfLeakage
         fields = ['Rated_Capacity_of_PRD',
                   'PRD_Inlet_Size',
                   'Cost_of_the_fluid',

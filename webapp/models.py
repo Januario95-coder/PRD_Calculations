@@ -210,7 +210,7 @@ class ConsequencesOfFailureInputData(models.Model):
 
 
 
-class Consequences0fFailureOfLeakageQuerySet(models.QuerySet):
+class ConsequencesOfFailureOfLeakageQuerySet(models.QuerySet):
     def serialize(self):
         list_values = list(self.values("id", "Rated_Capacity_of_PRD",
                                        "PRD_Inlet_Size",
@@ -225,13 +225,13 @@ class Consequences0fFailureOfLeakageQuerySet(models.QuerySet):
 
 
 
-class Consequences0fFailureOfLeakageManager(models.Manager):
+class ConsequencesOfFailureOfLeakageManager(models.Manager):
     def get_queryset(self):
-        return Consequences0fFailureOfLeakageQuerySet(self.model, using=self._db)
+        return ConsequencesOfFailureOfLeakageQuerySet(self.model, using=self._db)
 
 
 
-class Consequences0fFailureOfLeakage(models.Model):
+class ConsequencesOfFailureOfLeakage(models.Model):
     Rated_Capacity_of_PRD = models.DecimalField(max_digits=10,
                             decimal_places=2,
                             default=1.0)
@@ -257,7 +257,7 @@ class Consequences0fFailureOfLeakage(models.Model):
                             decimal_places=3,
                             default=1.0)
 
-    objects = Consequences0fFailureOfLeakageManager()
+    objects = ConsequencesOfFailureOfLeakageManager()
 
     def __str__(self):
         return f'{self.Rated_Capacity_of_PRD}'
@@ -426,8 +426,6 @@ class GeneralInformationQuerySet(models.QuerySet):
                                        "Environment_Factor_Modifier",
                                        "Rupture_disk_is_installed_upstream_of_PRD"))
 
-        #list_values[0]['model'] = self.model._meta.model_nam
-        #self.model._meta.model_nam
         return list_values
 
 
@@ -446,10 +444,6 @@ class GeneralInformation(models.Model):
     Type_of_PRD = models.ForeignKey(TypeOfPRD,
                             on_delete=models.CASCADE,
                             related_name='gen_info')
-
-    #Type_of_PRD = models.CharField(max_length=25,
-    #                               choices=IPRD_3_CHOICES,
-    #                               default='convention_spring_loaded')
     PRD_Containing_Soft_Seats = models.CharField(
                 max_length=15,
                 choices=IPRD_4_CHOICES,
@@ -459,24 +453,14 @@ class GeneralInformation(models.Model):
                                   default=1.0)
     Service_severity = models.ForeignKey(ServiceSeverity,
                             on_delete=models.CASCADE)
-    #Service_severity = models.CharField(max_length=15,
-    #                   choices=IPRD_6_CHOICES,
-    #                   default='mild')
     PRD_Discharge_Location = models.ForeignKey(PRDDischargeLocation,
                             on_delete=models.CASCADE)
-    #PRD_Discharge_Location = models.CharField(max_length=25,
-    #                         choices=IPRD_7_CHOICES,
-    #                         default='atmosphere')
     Environment_Factor_Modifier = models.ForeignKey(EnvironmentFactorModifier,
                              on_delete=models.CASCADE)
-    #Environment_Factor_Modifier = models.CharField(max_length=100,
-    #                        choices=IPRD_8_CHOICES,
-    #                        default=f'99.33 {degree_sign}C < T < 260 {degree_sign}C')
     Rupture_disk_is_installed_upstream_of_PRD = models.CharField(max_length=13,
                             choices=IPRD_9_CHOICES,
                             default='no')
-    #ProtectedFixedEquipmentPipingData = models.ForeignKey(ProtectedFixedEquipmentPipingData, 
-    #                                                      on_delete=models.CASCADE)
+
 
     objects = GeneralInformationManager()
 
@@ -499,3 +483,33 @@ class GeneralInformation(models.Model):
         data = json.dumps(data)
         return data
         
+
+
+
+
+class AllModels(models.Model):
+    general_information = models.ForeignKey(to = GeneralInformation, on_delete=models.CASCADE)
+    protected_fixed_equip = models.ForeignKey(to = ProtectedFixedEquipmentPipingData, on_delete=models.CASCADE)
+    consequence_of_failure_input_data = models.ForeignKey(to = ConsequencesOfFailureInputData, on_delete=models.CASCADE)
+    consequence_of_failure_leakage = models.ForeignKey(to = ConsequencesOfFailureOfLeakage, on_delete=models.CASCADE)
+    PRD_Inspection_history = models.ManyToManyField(to = Prd_InspectionHistory) #, on_delete=models.CASCADE)
+    applicable_overpressure_demand = models.ForeignKey(to = ApplicableOverpressureDemandCase, on_delete=models.CASCADE)
+    
+    def __str__(self):
+        return 'Project data'
+    
+    class Meta:
+        verbose_name_plural = 'All Models'
+    
+
+class ProjectRegistration(models.Model):
+    project_name = models.CharField(max_length=150)
+    project_function = models.CharField(max_length=150)
+    creation_date = models.DateField()
+    project = models.ForeignKey(to = AllModels, on_delete=models.CASCADE, null=True)
+    
+    def __str__(self):
+        return self.project_function
+        
+    class Meta:
+        verbose_name_plural = 'Project Registration'

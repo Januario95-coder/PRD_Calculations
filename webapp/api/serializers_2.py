@@ -22,9 +22,12 @@ from webapp.models import (
     GeneralInformation,
     ProtectedFixedEquipmentPipingData,
     ConsequencesOfFailureInputData,
-    Consequences0fFailureOfLeakage,
+    ConsequencesOfFailureOfLeakage,
     Prd_InspectionHistory,
-    ApplicableOverpressureDemandCase
+    ApplicableOverpressureDemandCase,
+    
+    ProjectRegistration,
+    AllModels,
 )
 from ..IPRD_INPUT_CHOICES import IPRD_3_CHOICES
 import os
@@ -103,7 +106,7 @@ class ConsequencesOfFailureInputDataSerializer(serializers.ModelSerializer):
 
 class ConsequencesOfFailureOfLeakageSerializer(serializers.ModelSerializer):
     class Meta:
-        model = Consequences0fFailureOfLeakage
+        model = ConsequencesOfFailureOfLeakage
         fields = '__all__'
 
 
@@ -173,6 +176,33 @@ class GeneralInformationSerializer(serializers.ModelSerializer):
 
 
 
+class AllModelsSerializer(serializers.ModelSerializer):
+    general_information = GeneralInformationSerializer()
+    protected_fixed_equip = ProtectedFixedEquipmentSerializer()
+    consequence_of_failure_input_data = ConsequencesOfFailureInputDataSerializer()
+    consequence_of_failure_leakage = ConsequencesOfFailureOfLeakageSerializer()
+    PRD_Inspection_history = Prd_InspectionHistorySerializer(many=True)
+    applicable_overpressure_demand = ApplicableOverpressureDemandCaseSerializer()
+    
+    class Meta:
+        model = AllModels
+        fields = ['general_information', 'protected_fixed_equip',
+                  'consequence_of_failure_input_data',
+                  'consequence_of_failure_leakage',
+                  'PRD_Inspection_history',
+                  'applicable_overpressure_demand']
+
+
+class ProjectRegistrationSerializer(serializers.ModelSerializer):
+    # project = AllModelsSerializer()
+    
+    class Meta:
+        model = ProjectRegistration
+        fields = ['project_name', 'project_function',
+                  'creation_date'] #, 'project']
+
+
+
 class AllModels(ObjectMultipleModelAPIView):
     #add_model_type = False
 
@@ -183,7 +213,7 @@ class AllModels(ObjectMultipleModelAPIView):
          'serializer_class': ProtectedFixedEquipmentSerializer},
         {'queryset': ConsequencesOfFailureInputData.objects.all(),
          'serializer_class': ConsequencesOfFailureInputDataSerializer},
-        {'queryset': Consequences0fFailureOfLeakage.objects.all(),
+        {'queryset': ConsequencesOfFailureInputData.objects.all(),
          'serializer_class': ConsequencesOfFailureOfLeakageSerializer},
          {'queryset': Prd_InspectionHistory.objects.all(),
          'serializer_class': Prd_InspectionHistorySerializer},
@@ -285,7 +315,7 @@ def models_by_id(request, id):
 
     
 
-    
+  
     
     
     

@@ -13,9 +13,12 @@ from webapp.models import (
     GeneralInformation,
     ProtectedFixedEquipmentPipingData,
     ConsequencesOfFailureInputData,
-    Consequences0fFailureOfLeakage,
+    ConsequencesOfFailureOfLeakage,
     ApplicableOverpressureDemandCase,
-    Prd_InspectionHistory
+    Prd_InspectionHistory,
+    
+    AllModels,
+    ProjectRegistration,
 )
 import csv
 import datetime
@@ -123,18 +126,18 @@ class GeneralInformationAdmin(admin.ModelAdmin):
 
 
 @admin.register(ProtectedFixedEquipmentPipingData)
-class PrdInspectionHistory(admin.ModelAdmin):
+class PrdInspectionHistoryAdmin(admin.ModelAdmin):
     list_display = ['id', 'Fixed_Equipment_Protected_by_PRD',
                     'Protected_Equipment_Demage_Status']
 
 
 @admin.register(ConsequencesOfFailureInputData)
-class ConsequencesOfFailureInputData(admin.ModelAdmin):
+class ConsequencesOfFailureInputDataAdmin(admin.ModelAdmin):
     list_display = ['Multiple_PRDs_protecting_fixed_equipment']
 
 
-@admin.register(Consequences0fFailureOfLeakage)
-class Consequences0fFailureOfLeakage(admin.ModelAdmin):
+@admin.register(ConsequencesOfFailureOfLeakage)
+class ConsequencesOfFailureOfLeakageAdmin(admin.ModelAdmin):
     list_display = ['id', 'Rated_Capacity_of_PRD',
                     'PRD_Inlet_Size',
                     'Cost_of_the_fluid',
@@ -142,14 +145,14 @@ class Consequences0fFailureOfLeakage(admin.ModelAdmin):
 
 
 @admin.register(ApplicableOverpressureDemandCase)
-class ApplicableOverpressureDemandCase(admin.ModelAdmin):
+class ApplicableOverpressureDemandCaseAdmin(admin.ModelAdmin):
     list_display = ['id', 'Over_pressure_demand_case',
                  'Overpressure_associated_with_the_overpressure',
                  'PRD_COF_to_open_associated_with_jth_overpressure']
 
 
 @admin.register(Prd_InspectionHistory)
-class Prd_InspectionHistory(admin.ModelAdmin):
+class Prd_InspectionHistoryAdmin(admin.ModelAdmin):
     list_display = ['id', 'RBI_inspection_test_date',
                     'PRD_pop_test_results',
                     'PRD_Leakage_results',
@@ -162,3 +165,21 @@ class Prd_InspectionHistory(admin.ModelAdmin):
                     'PRD_Inspection_Effectiveness',
                     'PRD_Overhauled_during_the_inspection',
                     'PRD_replace_with_new_PRD_in_lieu_of_overhaul']
+
+
+
+@admin.register(AllModels)
+class AllModelsAdmin(admin.ModelAdmin):
+    list_display = ['general_information', 'protected_fixed_equip',
+                    'consequence_of_failure_input_data',
+                    'consequence_of_failure_leakage',
+                    #'PRD_Inspection_history',
+                    'applicable_overpressure_demand']
+                    
+                    
+
+@admin.register(ProjectRegistration)
+class ProjectRegistrationAdmin(admin.ModelAdmin):
+    list_display = ['project_name', 'project_function',
+                    'creation_date',
+                    'project']

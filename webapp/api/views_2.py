@@ -16,7 +16,8 @@ from django.views.decorators.csrf import csrf_exempt
 
 import json
 import requests
-import datetime
+import datetime 
+from datetime import datetime as dt
 
 
 from .serializers_2 import (
@@ -36,6 +37,8 @@ from .serializers_2 import (
     ConsequencesOfFailureOfLeakageSerializer,
     Prd_InspectionHistorySerializer,
     ApplicableOverpressureDemandCaseSerializer,
+    
+    ProjectRegistrationSerializer,
 )
 
 from webapp.models import (
@@ -52,9 +55,11 @@ from webapp.models import (
     GeneralInformation,
     ProtectedFixedEquipmentPipingData,
     ConsequencesOfFailureInputData,
-    Consequences0fFailureOfLeakage,
+    ConsequencesOfFailureInputData,
     Prd_InspectionHistory,
-    ApplicableOverpressureDemandCase
+    ApplicableOverpressureDemandCase,
+    
+    ProjectRegistration,
 )
 
 from .forms import GenInfoForm
@@ -87,11 +92,14 @@ def gen_data(request):
     print('\nSubmitted data:')
     print(data)
     print()
+
+    data['Installation_of_PRD'] = dt.strptime("2021-03-11T19:16:12", '%Y-%m-%dT%H:%M:%S')
+    data['RBI_assessment_date'] = dt.strptime("2021-03-11T19:16:15", '%Y-%m-%dT%H:%M:%S')
+    print(data)
+    print()
+    message = ''
     form = GenInfoForm(data)
     print(f'Form is valid: {form.is_valid()}')
-    #year, month, day = data['Installation_of_PRD'].split('-')
-    #data['Installation_of_PRD'] = datetime.date(int(year), int(month), int(day))
-    message = ''
     
     if form.is_valid():
         print('Cleaned data:')
@@ -230,6 +238,24 @@ class OverPressureDemandCaseAPIView(generics.ListAPIView):
 
 
 
+class ProjectRegistrationView(ModelViewSet):
+    queryset = ProjectRegistration.objects.all()
+    serializer_class = ProjectRegistrationSerializer
+    
+
+
+class ProjectRegistrationListView(generics.ListAPIView):
+    queryset = ProjectRegistration.objects.all()
+    serializer_class = ProjectRegistrationSerializer
+    
+    
+class ProjectRegistrationCreationView(
+              generics.RetrieveAPIView,
+              generics.UpdateAPIView):
+    queryset = ProjectRegistration.objects.all()
+    serializer_class = ProjectRegistrationSerializer    
+
+
 
 
 class GeneralInformationAPIView(ModelViewSet):
@@ -291,7 +317,7 @@ class ConsequencesOfFailureOfLeakageAPIView(
 
     def get_queryset(self):
         request = self.request
-        qs = Consequences0fFailureOfLeakage.objects.all()
+        qs = ConsequencesOfFailureInputData.objects.all()
         # print(request.user)
         query = request.GET.get('q')
         if query is not None:
