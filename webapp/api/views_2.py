@@ -83,8 +83,30 @@ def is_json(json_data):
         is_valid = False
     return is_valid
     
-   
-   
+
+def test_submission(request):
+    if request.method == 'POST':
+        form = GenInfoForm(request.POST)
+        print(request.body)
+        if form.is_valid():
+            print('\nForm is valid')
+            data = form.cleaned_data
+            form.save(commit=True)
+            
+            # data['Installation_of_PRD'] = data['Installation_of_PRD'].strftime('%Y-%m:%d %H:%M:%S')
+            # data['RBI_assessment_date'] = data['RBI_assessment_date'].strftime('%Y-%m:%d %H:%M:%S')
+            print(data, '\n')
+    else:
+        form = GenInfoForm()
+        print('Form is not valid')
+        
+    return render(request, 
+                  'webapp/testSubmission/testSubmission.html',
+                  {'form': form})
+
+
+
+
 @require_POST
 @csrf_exempt
 def gen_data(request):
@@ -92,24 +114,41 @@ def gen_data(request):
     print('\nSubmitted data:')
     print(data)
     print()
-
-    data['Installation_of_PRD'] = dt.strptime("2021-03-11T19:16:12", '%Y-%m-%dT%H:%M:%S')
-    data['RBI_assessment_date'] = dt.strptime("2021-03-11T19:16:15", '%Y-%m-%dT%H:%M:%S')
-    print(data)
-    print()
-    message = ''
+    
     form = GenInfoForm(data)
     print(f'Form is valid: {form.is_valid()}')
+    message = ''
+    
+    # obj = GeneralInformation.objects.filter(id=data['id'])
+    # if obj.exists():
+        # data = form.cleaned_data
+        # obj = obj.first()
+        # obj.PRD_identification_number = data['PRD_identification_number']
+        # obj.PRD_function = data['PRD_function']
+        # obj.Installation_of_PRD = data['Installation_of_PRD']
+        # obj.RBI_assessment_date = data['RBI_assessment_date']
+        # obj.Type_of_PRD = TypeOfPRD.objects.get(name=data['Type_of_PRD'])
+        # obj.PRD_Containing_Soft_Seats = data['PRD_Containing_Soft_Seats']
+        # obj.PRD_set = data['PRD_set']
+        # obj.Service_severity = ServiceSeverity.objects.get(name=data['Service_severity'])
+        # obj.PRD_Discharge_Location = PRDDischargeLocation.objects.get(name=data['PRD_Discharge_Location'])
+        # obj.Environment_Factor_Modifier = EnvironmentFactorModifier.objects.get(name=data['Environment_Factor_Modifier'])
+        # obj.Rupture_disk_is_installed_upstream_of_PRD = data['Rupture_disk_is_installed_upstream_of_PRD']
+        # obj.save()
+        # message = 'Object updated successfully'
+    # else:
+        # message = 'Object was not updated'
+    
     
     if form.is_valid():
         print('Cleaned data:')
-        print(form.cleaned_data)
-        print()
+        data = form.cleaned_data
+        print(data)
         id_number = data['id']
-        obj = GeneralInformation.objects.filter(id=id)
+        obj = GeneralInformation.objects.filter(id=id_number)
         if obj.exists():
             obj = obj.first()
-            obj.PRD_identification_number = id_number
+            obj.PRD_identification_number = data['PRD_identification_number']
             obj.PRD_function = data['PRD_function']
             obj.Installation_of_PRD = data['Installation_of_PRD']
             obj.RBI_assessment_date = data['RBI_assessment_date']
@@ -121,30 +160,18 @@ def gen_data(request):
             obj.Environment_Factor_Modifier = EnvironmentFactorModifier.objects.get(name=data['Environment_Factor_Modifier'])
             obj.Rupture_disk_is_installed_upstream_of_PRD = data['Rupture_disk_is_installed_upstream_of_PRD']
             obj.save()
-            message = 'Object updated successfully'
+            message = f'Object updated successfully'
         else:
-            obj = GeneralInformation.objects.create(
-                PRD_identification_number = id_number,
-                PRD_function = data['PRD_function'],
-                Installation_of_PRD = data['Installation_of_PRD'],
-                RBI_assessment_date = data['RBI_assessment_date'],
-                Type_of_PRD = TypeOfPRD.objects.get(name=data['Type_of_PRD']),
-                PRD_Containing_Soft_Seats = data['PRD_Containing_Soft_Seats'],
-                PRD_set = data['PRD_set'],
-                Service_severity = ServiceSeverity.objects.get(name=data['Service_severity']),
-                PRD_Discharge_Location = PRDDischargeLocation.objects.get(name=data['PRD_Discharge_Location']),
-                Environment_Factor_Modifier = EnvironmentFactorModifier.objects.get(name=data['Environment_Factor_Modifier']),
-                Rupture_disk_is_installed_upstream_of_PRD = data['Rupture_disk_is_installed_upstream_of_PRD']
-            )
-            obj.save()
-            message = 'Object created successfully'
+            message = 'Object was not updated'
     else:
         message = 'form is not valid'
+    print('\n', message)
     return JsonResponse({
         'message': message
     })
-    
-    
+
+   
+
 def test_api(request):
     if request.method == 'POST':
         form = GenInfoForm(request.POST)
